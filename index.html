@@ -214,11 +214,7 @@
     margin-bottom: 3px;
   }
 
-  .aspirantometro-date {
-    font-size: 11px;
-    color: rgba(245,240,232,0.3);
-    letter-spacing: 0.5px;
-  }
+  .aspirantometro-date { font-size: 11px; color: rgba(245,240,232,0.3); letter-spacing: 0.5px; }
 
   .countdown-blocks { display: flex; gap: 8px; margin-left: auto; }
 
@@ -255,7 +251,7 @@
     border: 0.5px solid rgba(201,168,76,0.2);
     border-radius: 12px;
     padding: 1.1rem 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .mural-header {
@@ -304,6 +300,76 @@
   }
 
   .avisos-vazio {
+    font-size: 12px;
+    color: rgba(245,240,232,0.25);
+    letter-spacing: 0.5px;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  /* ── ANIVERSARIANTES ── */
+  .aniversariantes-card {
+    background: rgba(250,250,248,0.04);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .aniversariantes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+  }
+
+  .aniversariantes-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+  }
+
+  .aniversariantes-mes {
+    font-size: 11px;
+    color: rgba(245,240,232,0.3);
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+  }
+
+  .aniversariantes-lista { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .aniversariante-item {
+    background: rgba(201,168,76,0.07);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: rgba(245,240,232,0.8);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .aniversariante-item.hoje {
+    border-color: var(--dourado);
+    background: rgba(201,168,76,0.15);
+  }
+
+  .aniversariante-item.hoje .aniv-nome { color: var(--dourado); font-weight: 500; }
+
+  .aniv-dia {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--dourado);
+    letter-spacing: 1px;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  .aniversariantes-vazio {
     font-size: 12px;
     color: rgba(245,240,232,0.25);
     letter-spacing: 0.5px;
@@ -421,12 +487,7 @@
   }
 
   /* ── ABAS ── */
-  .tabs-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 1.5rem;
-  }
+  .tabs-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
 
   .tab-btn {
     background: rgba(255,255,255,0.05);
@@ -537,7 +598,7 @@
 
   .loading-state p { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
   .error-state { text-align: center; padding: 2rem 1rem; color: #e87070; font-size: 13px; }
-  .empty-state { text-align: center; padding: 2rem 1rem; color: rgba(245,240,232,0.3); font-size: 13px; letter-spacing: 0.5px; }
+  .empty-state { text-align: center; padding: 2rem 1rem; color: rgba(245,240,232,0.3); font-size: 13px; }
 
   /* ── FOOTER ── */
   .portal-footer {
@@ -612,7 +673,6 @@
 <!-- MODAL NOVO AVISO -->
 <div class="modal-overlay" id="modal-aviso">
   <div class="modal-box">
-    <!-- ETAPA 1: senha -->
     <div id="modal-step-1">
       <div class="modal-titulo">📣 Novo Aviso</div>
       <label class="modal-label">Senha de moderação</label>
@@ -623,7 +683,6 @@
         <button class="btn-modal-confirm" onclick="verificarSenhaAviso()">Continuar</button>
       </div>
     </div>
-    <!-- ETAPA 2: link para planilha -->
     <div id="modal-step-2" style="display:none;">
       <div class="modal-titulo">📣 Novo Aviso</div>
       <p style="font-size:13px;color:rgba(245,240,232,0.6);line-height:1.6;margin-bottom:1.25rem;">
@@ -694,6 +753,17 @@
     </div>
   </div>
 
+  <!-- ANIVERSARIANTES -->
+  <div class="aniversariantes-card">
+    <div class="aniversariantes-header">
+      <div class="aniversariantes-titulo">🎂 Aniversariantes</div>
+      <div class="aniversariantes-mes" id="aniv-mes"></div>
+    </div>
+    <div class="aniversariantes-lista" id="aniversariantes-lista">
+      <div class="aniversariantes-vazio">Carregando...</div>
+    </div>
+  </div>
+
   <div class="tabs-nav" id="tabs-nav">
     <!-- gerado dinamicamente -->
   </div>
@@ -719,10 +789,10 @@
 
 <script>
   // ── CONFIG ───────────────────────────────────────────────
-  const SHEETS_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?output=csv';
-  const AVISOS_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvgRt9f7idQWw-ShNMFYXHNFY4E2_5jR-QAyFgn4AkuG3Ew_RbtQ_pu6UynB48tH-NoHpzpj_LumzY/pub?gid=0&single=true&output=csv';
-  const SENHA_AVISO     = 'novidadenova';
-  const PLANILHA_AVISOS = 'https://docs.google.com/spreadsheets/d/1tCB1n99LHUgKUoupKap6pSDk2hVzHyhHlLUoADXW4HA/edit?gid=0#gid=0';
+  const SHEETS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?output=csv';
+  const AVISOS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvgRt9f7idQWw-ShNMFYXHNFY4E2_5jR-QAyFgn4AkuG3Ew_RbtQ_pu6UynB48tH-NoHpzpj_LumzY/pub?gid=0&single=true&output=csv';
+  const ANIVERSARIO_CSV  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRqA3qLybMZY36Wg0uJVcQ1P3mOvnNwcQUu1znfKjr6Q0ANjDMuNDK_8KgsF8NfQcR7B-b1baQgjvEC/pub?output=csv';
+  const SENHA_AVISO      = 'novidadenova';
 
   const TABS_CONFIG = [
     { id: 'fluidos',      label: 'Mecânica dos Fluidos'   },
@@ -732,6 +802,8 @@
     { id: 'ensino',       label: 'Téc. Prática de Ensino' },
     { id: 'estruturais',  label: 'Sistemas Estruturais'   },
   ];
+
+  const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
   // ── ASPIRANTÔMETRO ───────────────────────────────────────
   const FORMATURA = new Date('2027-07-02T10:00:00');
@@ -762,9 +834,7 @@
     setTimeout(() => document.getElementById('modal-pw').focus(), 100);
   }
 
-  function fecharModal() {
-    document.getElementById('modal-aviso').classList.remove('open');
-  }
+  function fecharModal() { document.getElementById('modal-aviso').classList.remove('open'); }
 
   function verificarSenhaAviso() {
     const val = document.getElementById('modal-pw').value;
@@ -778,13 +848,8 @@
     }
   }
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') fecharModal();
-  });
-
-  document.getElementById('modal-pw').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') verificarSenhaAviso();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
+  document.getElementById('modal-pw').addEventListener('keydown', e => { if (e.key === 'Enter') verificarSenhaAviso(); });
 
   // ── PARSER CSV ───────────────────────────────────────────
   function parseCSV(text) {
@@ -810,16 +875,53 @@
     try {
       const res = await fetch(AVISOS_CSV_URL + '&t=' + Date.now());
       if (!res.ok) throw new Error();
-      const text = await res.text();
-      const rows = parseCSV(text).filter(r => r.aviso && (r.ativo || '').toLowerCase() === 'sim');
+      const rows = parseCSV(await res.text()).filter(r => r.aviso && (r.ativo || '').toLowerCase() === 'sim');
       const lista = document.getElementById('avisos-lista');
-      if (rows.length === 0) {
-        lista.innerHTML = '<div class="avisos-vazio">Nenhum aviso no momento.</div>';
-      } else {
-        lista.innerHTML = rows.map(r => `<div class="aviso-item">📌 ${r.aviso}</div>`).join('');
-      }
+      lista.innerHTML = rows.length === 0
+        ? '<div class="avisos-vazio">Nenhum aviso no momento.</div>'
+        : rows.map(r => `<div class="aviso-item">📌 ${r.aviso}</div>`).join('');
     } catch {
       document.getElementById('avisos-lista').innerHTML = '<div class="avisos-vazio">Não foi possível carregar os avisos.</div>';
+    }
+  }
+
+  // ── ANIVERSARIANTES ──────────────────────────────────────
+  async function loadAniversariantes() {
+    const agora   = new Date();
+    const mesAtual = agora.getMonth() + 1;
+    const diaAtual = agora.getDate();
+
+    document.getElementById('aniv-mes').textContent = MESES[agora.getMonth()];
+
+    try {
+      const res = await fetch(ANIVERSARIO_CSV + '&t=' + Date.now());
+      if (!res.ok) throw new Error();
+      const rows = parseCSV(await res.text()).filter(r => r.nome && r.data);
+
+      // filtra pelo mês atual
+      const doMes = rows.filter(r => {
+        const partes = r.data.split('/');
+        return parseInt(partes[1]) === mesAtual;
+      }).sort((a, b) => {
+        return parseInt(a.data.split('/')[0]) - parseInt(b.data.split('/')[0]);
+      });
+
+      const lista = document.getElementById('aniversariantes-lista');
+      if (doMes.length === 0) {
+        lista.innerHTML = '<div class="aniversariantes-vazio">Nenhum aniversariante este mês.</div>';
+      } else {
+        lista.innerHTML = doMes.map(r => {
+          const dia = parseInt(r.data.split('/')[0]);
+          const ehHoje = dia === diaAtual;
+          return `
+            <div class="aniversariante-item ${ehHoje ? 'hoje' : ''}">
+              <span class="aniv-dia">${String(dia).padStart(2,'0')}</span>
+              <span class="aniv-nome">${r.nome}${ehHoje ? ' 🎂' : ''}</span>
+            </div>`;
+        }).join('');
+      }
+    } catch {
+      document.getElementById('aniversariantes-lista').innerHTML = '<div class="aniversariantes-vazio">Não foi possível carregar.</div>';
     }
   }
 
@@ -909,8 +1011,7 @@
     try {
       const res = await fetch(SHEETS_CSV_URL + '&t=' + Date.now());
       if (!res.ok) throw new Error();
-      const text = await res.text();
-      renderPortal(parseCSV(text).filter(r => r.materia && r.nome && r.id));
+      renderPortal(parseCSV(await res.text()).filter(r => r.materia && r.nome && r.id));
     } catch {
       document.getElementById('tabs-content').innerHTML = `
         <div class="error-state">
@@ -924,7 +1025,7 @@
   async function recarregarTudo() {
     const btn = document.getElementById('btn-refresh');
     btn.classList.add('spinning');
-    await Promise.all([loadFromSheets(), loadAvisos()]);
+    await Promise.all([loadFromSheets(), loadAvisos(), loadAniversariantes()]);
     btn.classList.remove('spinning');
   }
 
@@ -938,6 +1039,7 @@
       portal.classList.add('visible');
       loadFromSheets();
       loadAvisos();
+      loadAniversariantes();
       updateCountdown();
       setInterval(updateCountdown, 1000);
     } else {
@@ -947,7 +1049,7 @@
     }
   }
 
-  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  document.getElementById('pw-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') checkPassword();
   });
 
