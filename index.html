@@ -54,11 +54,7 @@
     margin-bottom: 1rem;
   }
 
-  .emblem-ring img {
-    width: 220px;
-    height: 220px;
-    object-fit: contain;
-  }
+  .emblem-ring img { width: 220px; height: 220px; object-fit: contain; }
 
   .gate-emblem h1 {
     font-family: 'Bebas Neue', sans-serif;
@@ -162,13 +158,7 @@
     border-bottom: 0.5px solid rgba(201,168,76,0.2);
   }
 
-  .portal-logo {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-
+  .portal-logo { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
   .portal-logo img { width: 100%; height: 100%; object-fit: contain; }
 
   .portal-header-text h2 {
@@ -208,7 +198,7 @@
     border: 0.5px solid rgba(201,168,76,0.25);
     border-radius: 12px;
     padding: 1.1rem 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -230,11 +220,7 @@
     letter-spacing: 0.5px;
   }
 
-  .countdown-blocks {
-    display: flex;
-    gap: 8px;
-    margin-left: auto;
-  }
+  .countdown-blocks { display: flex; gap: 8px; margin-left: auto; }
 
   .countdown-block {
     text-align: center;
@@ -263,6 +249,177 @@
     margin-top: 3px;
   }
 
+  /* ── MURAL DE AVISOS ── */
+  .mural-card {
+    background: rgba(250,250,248,0.04);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mural-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+  }
+
+  .mural-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+  }
+
+  .btn-novo-aviso {
+    background: transparent;
+    border: 0.5px solid rgba(201,168,76,0.4);
+    color: rgba(201,168,76,0.7);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-novo-aviso:hover { border-color: var(--dourado); color: var(--dourado); }
+
+  .avisos-lista { display: flex; flex-direction: column; gap: 7px; }
+
+  .aviso-item {
+    background: rgba(201,168,76,0.05);
+    border-left: 2px solid rgba(201,168,76,0.4);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: rgba(245,240,232,0.8);
+    line-height: 1.5;
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .avisos-vazio {
+    font-size: 12px;
+    color: rgba(245,240,232,0.25);
+    letter-spacing: 0.5px;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,12,8,0.75);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: #0e1f15;
+    border: 0.5px solid rgba(201,168,76,0.3);
+    border-radius: 14px;
+    padding: 1.75rem;
+    width: 100%;
+    max-width: 420px;
+    animation: fadeUp 0.25s ease both;
+  }
+
+  .modal-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    margin-bottom: 1.25rem;
+  }
+
+  .modal-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.6);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .modal-input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(201,168,76,0.3);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: var(--creme);
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+    margin-bottom: 14px;
+    letter-spacing: 2px;
+  }
+
+  .modal-input:focus { border-color: var(--dourado); }
+
+  .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
+
+  .btn-modal-cancel {
+    flex: 1;
+    background: transparent;
+    border: 0.5px solid rgba(245,240,232,0.15);
+    color: rgba(245,240,232,0.4);
+    border-radius: 8px;
+    padding: 11px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-modal-cancel:hover { border-color: rgba(245,240,232,0.3); color: rgba(245,240,232,0.6); }
+
+  .btn-modal-confirm {
+    flex: 2;
+    background: var(--dourado);
+    color: var(--verde);
+    border: none;
+    border-radius: 8px;
+    padding: 11px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .btn-modal-confirm:hover { background: var(--dourado-claro); }
+
+  .modal-err {
+    font-size: 11px;
+    color: #e87070;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    min-height: 16px;
+  }
+
   /* ── ABAS ── */
   .tabs-nav {
     display: flex;
@@ -288,12 +445,7 @@
   }
 
   .tab-btn:hover { border-color: rgba(201,168,76,0.5); color: var(--creme); }
-
-  .tab-btn.active {
-    background: rgba(201,168,76,0.15);
-    border-color: var(--dourado);
-    color: var(--dourado);
-  }
+  .tab-btn.active { background: rgba(201,168,76,0.15); border-color: var(--dourado); color: var(--dourado); }
 
   .tab-count {
     display: inline-flex;
@@ -310,7 +462,6 @@
   }
 
   .tab-btn.active .tab-count { background: rgba(201,168,76,0.3); }
-
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
@@ -349,19 +500,8 @@
   }
 
   .file-info { flex: 1; }
-
-  .file-info .file-name {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--creme);
-    display: block;
-    margin-bottom: 2px;
-  }
-
-  .file-info .file-meta {
-    font-size: 11px;
-    color: rgba(245,240,232,0.35);
-  }
+  .file-info .file-name { font-size: 14px; font-weight: 500; color: var(--creme); display: block; margin-bottom: 2px; }
+  .file-info .file-meta { font-size: 11px; color: rgba(245,240,232,0.35); }
 
   .btn-download {
     background: transparent;
@@ -384,11 +524,7 @@
   .btn-download:hover { background: var(--dourado); color: var(--verde); }
 
   /* ── LOADING / ERROR / EMPTY ── */
-  .loading-state {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: rgba(245,240,232,0.4);
-  }
+  .loading-state { text-align: center; padding: 3rem 1rem; color: rgba(245,240,232,0.4); }
 
   .loading-spinner {
     width: 28px; height: 28px;
@@ -400,16 +536,8 @@
   }
 
   .loading-state p { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
-
   .error-state { text-align: center; padding: 2rem 1rem; color: #e87070; font-size: 13px; }
-
-  .empty-state {
-    text-align: center;
-    padding: 2rem 1rem;
-    color: rgba(245,240,232,0.3);
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
+  .empty-state { text-align: center; padding: 2rem 1rem; color: rgba(245,240,232,0.3); font-size: 13px; letter-spacing: 0.5px; }
 
   /* ── FOOTER ── */
   .portal-footer {
@@ -423,12 +551,7 @@
     gap: 8px;
   }
 
-  .footer-text {
-    font-size: 11px;
-    color: rgba(245,240,232,0.25);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
+  .footer-text { font-size: 11px; color: rgba(245,240,232,0.25); letter-spacing: 1px; text-transform: uppercase; }
 
   .btn-refresh {
     background: transparent;
@@ -486,6 +609,41 @@
   </div>
 </div>
 
+<!-- MODAL NOVO AVISO -->
+<div class="modal-overlay" id="modal-aviso">
+  <div class="modal-box">
+    <!-- ETAPA 1: senha -->
+    <div id="modal-step-1">
+      <div class="modal-titulo">📣 Novo Aviso</div>
+      <label class="modal-label">Senha de moderação</label>
+      <input type="password" class="modal-input" id="modal-pw" placeholder="Digite a senha" autocomplete="off" />
+      <div class="modal-err" id="modal-pw-err"></div>
+      <div class="modal-btns">
+        <button class="btn-modal-cancel" onclick="fecharModal()">Cancelar</button>
+        <button class="btn-modal-confirm" onclick="verificarSenhaAviso()">Continuar</button>
+      </div>
+    </div>
+    <!-- ETAPA 2: link para planilha -->
+    <div id="modal-step-2" style="display:none;">
+      <div class="modal-titulo">📣 Novo Aviso</div>
+      <p style="font-size:13px;color:rgba(245,240,232,0.6);line-height:1.6;margin-bottom:1.25rem;">
+        A planilha de avisos vai abrir em uma nova aba.<br>
+        Adicione uma nova linha com o texto do aviso e coloque <strong style="color:var(--dourado)">sim</strong> na coluna <strong style="color:var(--dourado)">ativo</strong>.<br><br>
+        Depois volte aqui e clique em <strong style="color:var(--dourado)">Atualizar</strong> para ver o aviso no mural.
+      </p>
+      <div class="modal-btns">
+        <button class="btn-modal-cancel" onclick="fecharModal()">Fechar</button>
+        <a class="btn-modal-confirm"
+           href="https://docs.google.com/spreadsheets/d/1bkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/edit#gid=1329039056"
+           target="_blank"
+           onclick="fecharModal()">
+          Abrir Planilha
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- PORTAL -->
 <div id="portal">
   <div class="portal-header">
@@ -525,6 +683,17 @@
     </div>
   </div>
 
+  <!-- MURAL DE AVISOS -->
+  <div class="mural-card">
+    <div class="mural-header">
+      <div class="mural-titulo">📣 Mural de Avisos</div>
+      <button class="btn-novo-aviso" onclick="abrirModal()">+ Novo aviso</button>
+    </div>
+    <div class="avisos-lista" id="avisos-lista">
+      <div class="avisos-vazio">Carregando avisos...</div>
+    </div>
+  </div>
+
   <div class="tabs-nav" id="tabs-nav">
     <!-- gerado dinamicamente -->
   </div>
@@ -538,7 +707,7 @@
 
   <div class="portal-footer">
     <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026</span>
-    <button class="btn-refresh" id="btn-refresh" onclick="loadFromSheets()">
+    <button class="btn-refresh" id="btn-refresh" onclick="recarregarTudo()">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px">
         <path d="M23 4v6h-6M1 20v-6h6"/>
         <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
@@ -550,7 +719,10 @@
 
 <script>
   // ── CONFIG ───────────────────────────────────────────────
-  const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?output=csv';
+  const SHEETS_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?output=csv';
+  const AVISOS_CSV_URL  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1329039056&single=true&output=csv';
+  const SENHA_AVISO     = 'novidadenova';
+  const PLANILHA_AVISOS = 'https://docs.google.com/spreadsheets/d/1bkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/edit#gid=1329039056';
 
   const TABS_CONFIG = [
     { id: 'fluidos',      label: 'Mecânica dos Fluidos'   },
@@ -567,34 +739,52 @@
   function updateCountdown() {
     const diff = FORMATURA - new Date();
     if (diff <= 0) {
-      ['cd-dias','cd-horas','cd-min','cd-seg'].forEach(id => {
-        document.getElementById(id).textContent = '00';
-      });
+      ['cd-dias','cd-horas','cd-min','cd-seg'].forEach(id => document.getElementById(id).textContent = '00');
       return;
     }
     const dias  = Math.floor(diff / 86400000);
     const horas = Math.floor((diff % 86400000) / 3600000);
     const min   = Math.floor((diff % 3600000) / 60000);
     const seg   = Math.floor((diff % 60000) / 1000);
-
-    document.getElementById('cd-dias').textContent  = String(dias).padStart(2, '0');
-    document.getElementById('cd-horas').textContent = String(horas).padStart(2, '0');
-    document.getElementById('cd-min').textContent   = String(min).padStart(2, '0');
-    document.getElementById('cd-seg').textContent   = String(seg).padStart(2, '0');
+    document.getElementById('cd-dias').textContent  = String(dias).padStart(2,'0');
+    document.getElementById('cd-horas').textContent = String(horas).padStart(2,'0');
+    document.getElementById('cd-min').textContent   = String(min).padStart(2,'0');
+    document.getElementById('cd-seg').textContent   = String(seg).padStart(2,'0');
   }
 
-  // ── ÍCONE POR TIPO ───────────────────────────────────────
-  function getIcon(tipo) {
-    const t = (tipo || '').toLowerCase();
-    if (t.includes('livro'))                             return '📚';
-    if (t.includes('planilha') || t.includes('sheets')) return '📊';
-    if (t.includes('txt'))                               return '📝';
-    if (t.includes('docx'))                              return '📄';
-    if (t.includes('simulad'))                           return '📋';
-    if (t.includes('estudo'))                            return '📖';
-    if (t.includes('ppt') || t.includes('apresent'))    return '📊';
-    return '📄';
+  // ── MODAL ────────────────────────────────────────────────
+  function abrirModal() {
+    document.getElementById('modal-aviso').classList.add('open');
+    document.getElementById('modal-step-1').style.display = 'block';
+    document.getElementById('modal-step-2').style.display = 'none';
+    document.getElementById('modal-pw').value = '';
+    document.getElementById('modal-pw-err').textContent = '';
+    setTimeout(() => document.getElementById('modal-pw').focus(), 100);
   }
+
+  function fecharModal() {
+    document.getElementById('modal-aviso').classList.remove('open');
+  }
+
+  function verificarSenhaAviso() {
+    const val = document.getElementById('modal-pw').value;
+    if (val === SENHA_AVISO) {
+      document.getElementById('modal-step-1').style.display = 'none';
+      document.getElementById('modal-step-2').style.display = 'block';
+    } else {
+      document.getElementById('modal-pw-err').textContent = 'Senha incorreta.';
+      document.getElementById('modal-pw').value = '';
+      document.getElementById('modal-pw').focus();
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') fecharModal();
+  });
+
+  document.getElementById('modal-pw').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') verificarSenhaAviso();
+  });
 
   // ── PARSER CSV ───────────────────────────────────────────
   function parseCSV(text) {
@@ -612,10 +802,41 @@
       const obj = {};
       headers.forEach((h, i) => obj[h] = (cols[i] || '').replace(/^"|"$/g, '').trim());
       return obj;
-    }).filter(r => r.materia && r.nome && r.id);
+    });
   }
 
-  // ── RENDER ───────────────────────────────────────────────
+  // ── AVISOS ───────────────────────────────────────────────
+  async function loadAvisos() {
+    try {
+      const res = await fetch(AVISOS_CSV_URL + '&t=' + Date.now());
+      if (!res.ok) throw new Error();
+      const text = await res.text();
+      const rows = parseCSV(text).filter(r => r.aviso && (r.ativo || '').toLowerCase() === 'sim');
+      const lista = document.getElementById('avisos-lista');
+      if (rows.length === 0) {
+        lista.innerHTML = '<div class="avisos-vazio">Nenhum aviso no momento.</div>';
+      } else {
+        lista.innerHTML = rows.map(r => `<div class="aviso-item">📌 ${r.aviso}</div>`).join('');
+      }
+    } catch {
+      document.getElementById('avisos-lista').innerHTML = '<div class="avisos-vazio">Não foi possível carregar os avisos.</div>';
+    }
+  }
+
+  // ── ÍCONE POR TIPO ───────────────────────────────────────
+  function getIcon(tipo) {
+    const t = (tipo || '').toLowerCase();
+    if (t.includes('livro'))                             return '📚';
+    if (t.includes('planilha') || t.includes('sheets')) return '📊';
+    if (t.includes('txt'))                               return '📝';
+    if (t.includes('docx'))                              return '📄';
+    if (t.includes('simulad'))                           return '📋';
+    if (t.includes('estudo'))                            return '📖';
+    if (t.includes('ppt') || t.includes('apresent'))    return '📊';
+    return '📄';
+  }
+
+  // ── RENDER PORTAL ────────────────────────────────────────
   function renderPortal(rows) {
     const nav     = document.getElementById('tabs-nav');
     const content = document.getElementById('tabs-content');
@@ -659,14 +880,10 @@
       } else {
         const list = document.createElement('div');
         list.className = 'files-list';
-
         items.forEach(item => {
           const t = (item.tipo || '').toLowerCase();
           const isDirectLink = t.includes('sheets') || t.includes('planilha') || t.includes('ppt') || t.includes('apresent');
-          const href = isDirectLink
-            ? item.id
-            : `https://drive.google.com/uc?export=download&id=${item.id}`;
-
+          const href = isDirectLink ? item.id : `https://drive.google.com/uc?export=download&id=${item.id}`;
           const card = document.createElement('div');
           card.className = 'file-card';
           card.innerHTML = `
@@ -679,7 +896,6 @@
           `;
           list.appendChild(card);
         });
-
         panel.appendChild(list);
       }
 
@@ -688,15 +904,13 @@
     });
   }
 
-  // ── FETCH SHEETS ─────────────────────────────────────────
+  // ── FETCH MATERIAIS ──────────────────────────────────────
   async function loadFromSheets() {
-    const btn = document.getElementById('btn-refresh');
-    btn.classList.add('spinning');
     try {
       const res = await fetch(SHEETS_CSV_URL + '&t=' + Date.now());
       if (!res.ok) throw new Error();
       const text = await res.text();
-      renderPortal(parseCSV(text));
+      renderPortal(parseCSV(text).filter(r => r.materia && r.nome && r.id));
     } catch {
       document.getElementById('tabs-content').innerHTML = `
         <div class="error-state">
@@ -704,9 +918,14 @@
           <small style="opacity:0.6;font-size:11px;">Verifique sua conexão ou tente novamente.</small>
         </div>`;
       document.getElementById('tabs-nav').innerHTML = '';
-    } finally {
-      btn.classList.remove('spinning');
     }
+  }
+
+  async function recarregarTudo() {
+    const btn = document.getElementById('btn-refresh');
+    btn.classList.add('spinning');
+    await Promise.all([loadFromSheets(), loadAvisos()]);
+    btn.classList.remove('spinning');
   }
 
   // ── LOGIN ─────────────────────────────────────────────────
@@ -718,6 +937,7 @@
       portal.style.display = 'block';
       portal.classList.add('visible');
       loadFromSheets();
+      loadAvisos();
       updateCountdown();
       setInterval(updateCountdown, 1000);
     } else {
