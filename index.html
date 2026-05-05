@@ -494,12 +494,13 @@
   // Ícone por tipo
   function getIcon(tipo) {
     const t = (tipo || '').toLowerCase();
-    if (t.includes('livro'))   return '📚';
+    if (t.includes('livro'))                             return '📚';
     if (t.includes('planilha') || t.includes('sheets')) return '📊';
-    if (t.includes('txt'))     return '📝';
-    if (t.includes('docx'))    return '📄';
-    if (t.includes('simulad')) return '📋';
-    if (t.includes('estudo'))  return '📖';
+    if (t.includes('txt'))                               return '📝';
+    if (t.includes('docx'))                              return '📄';
+    if (t.includes('simulad'))                           return '📋';
+    if (t.includes('estudo'))                            return '📖';
+    if (t.includes('ppt') || t.includes('apresent'))    return '📊';
     return '📄';
   }
 
@@ -572,9 +573,10 @@
         list.className = 'files-list';
 
         items.forEach(item => {
-          const isSheets = (item.tipo || '').toLowerCase().includes('sheets') || (item.tipo || '').toLowerCase().includes('planilha');
-          const href = isSheets
-            ? item.id  // id é a URL completa para planilhas
+          const t = (item.tipo || '').toLowerCase();
+          const isDirectLink = t.includes('sheets') || t.includes('planilha') || t.includes('ppt') || t.includes('apresent');
+          const href = isDirectLink
+            ? item.id
             : `https://drive.google.com/uc?export=download&id=${item.id}`;
 
           const card = document.createElement('div');
@@ -585,7 +587,7 @@
               <span class="file-name">${item.nome}</span>
               <span class="file-meta">${item.tipo || ''}</span>
             </div>
-            <a class="btn-download" href="${href}" target="_blank">${isSheets ? 'Abrir' : 'Baixar'}</a>
+            <a class="btn-download" href="${href}" target="_blank">${isDirectLink ? 'Abrir' : 'Baixar'}</a>
           `;
           list.appendChild(card);
         });
