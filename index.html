@@ -245,6 +245,52 @@
     margin-top: 3px;
   }
 
+  /* ── QUADRO DE TRABALHO ── */
+  .quadro-card {
+    background: rgba(250,250,248,0.04);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .quadro-info { flex: 1; }
+
+  .quadro-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .quadro-nome { font-size: 12px; color: rgba(245,240,232,0.45); letter-spacing: 0.5px; }
+
+  .btn-ver-quadro {
+    background: transparent;
+    border: 0.5px solid var(--dourado);
+    color: var(--dourado);
+    border-radius: 7px;
+    padding: 8px 18px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-ver-quadro:hover { background: var(--dourado); color: var(--verde); }
+
   /* ── MURAL DE AVISOS ── */
   .mural-card {
     background: rgba(250,250,248,0.04);
@@ -353,11 +399,7 @@
     animation: fadeUp 0.3s ease both;
   }
 
-  .aniversariante-item.hoje {
-    border-color: var(--dourado);
-    background: rgba(201,168,76,0.15);
-  }
-
+  .aniversariante-item.hoje { border-color: var(--dourado); background: rgba(201,168,76,0.15); }
   .aniversariante-item.hoje .aniv-nome { color: var(--dourado); font-weight: 500; }
 
   .aniv-dia {
@@ -584,7 +626,6 @@
 
   .btn-download:hover { background: var(--dourado); color: var(--verde); }
 
-  /* ── LOADING / ERROR / EMPTY ── */
   .loading-state { text-align: center; padding: 3rem 1rem; color: rgba(245,240,232,0.4); }
 
   .loading-spinner {
@@ -600,7 +641,6 @@
   .error-state { text-align: center; padding: 2rem 1rem; color: #e87070; font-size: 13px; }
   .empty-state { text-align: center; padding: 2rem 1rem; color: rgba(245,240,232,0.3); font-size: 13px; }
 
-  /* ── FOOTER ── */
   .portal-footer {
     margin-top: 2rem;
     padding-top: 1.25rem;
@@ -693,7 +733,7 @@
       <div class="modal-btns">
         <button class="btn-modal-cancel" onclick="fecharModal()">Fechar</button>
         <a class="btn-modal-confirm"
-           href="https://docs.google.com/spreadsheets/d/1tCB1n99LHUgKUoupKap6pSDk2hVzHyhHlLUoADXW4HA/edit?gid=0#gid=0"
+           href="https://docs.google.com/spreadsheets/d/1HevQE_BQXM6jUFXMlJcdu73LK8sDQ8VCD7aOCS9Gkr8/edit?gid=1646647707#gid=1646647707"
            target="_blank"
            onclick="fecharModal()">
           Abrir Planilha
@@ -740,6 +780,15 @@
         <span class="lbl">Seg</span>
       </div>
     </div>
+  </div>
+
+  <!-- QUADRO DE TRABALHO -->
+  <div class="quadro-card" id="quadro-card">
+    <div class="quadro-info">
+      <div class="quadro-titulo">📋 Quadro de Trabalho</div>
+      <div class="quadro-nome" id="quadro-nome">Carregando...</div>
+    </div>
+    <span id="quadro-btn-wrap"></span>
   </div>
 
   <!-- MURAL DE AVISOS -->
@@ -789,9 +838,10 @@
 
 <script>
   // ── CONFIG ───────────────────────────────────────────────
-  const SHEETS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?output=csv';
-  const AVISOS_CSV_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvgRt9f7idQWw-ShNMFYXHNFY4E2_5jR-QAyFgn4AkuG3Ew_RbtQ_pu6UynB48tH-NoHpzpj_LumzY/pub?gid=0&single=true&output=csv';
-  const ANIVERSARIO_CSV  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRqA3qLybMZY36Wg0uJVcQ1P3mOvnNwcQUu1znfKjr6Q0ANjDMuNDK_8KgsF8NfQcR7B-b1baQgjvEC/pub?output=csv';
+  const MATERIAIS_CSV    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=0&single=true&output=csv';
+  const AVISOS_CSV       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1646647707&single=true&output=csv';
+  const ANIVERSARIO_CSV  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=384779462&single=true&output=csv';
+  const QUADRO_CSV       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1405606780&single=true&output=csv';
   const SENHA_AVISO      = 'novidadenova';
 
   const TABS_CONFIG = [
@@ -870,10 +920,31 @@
     });
   }
 
+  // ── QUADRO DE TRABALHO ───────────────────────────────────
+  async function loadQuadro() {
+    try {
+      const res = await fetch(QUADRO_CSV + '&t=' + Date.now());
+      if (!res.ok) throw new Error();
+      const rows = parseCSV(await res.text()).filter(r => r.nome && r.link);
+      const nomeEl  = document.getElementById('quadro-nome');
+      const btnWrap = document.getElementById('quadro-btn-wrap');
+      if (rows.length === 0) {
+        nomeEl.textContent = 'Nenhum quadro disponível no momento.';
+        btnWrap.innerHTML  = '';
+      } else {
+        const ultimo = rows[rows.length - 1];
+        nomeEl.textContent = ultimo.nome;
+        btnWrap.innerHTML  = `<a class="btn-ver-quadro" href="${ultimo.link}" target="_blank">Ver Quadro</a>`;
+      }
+    } catch {
+      document.getElementById('quadro-nome').textContent = 'Não foi possível carregar.';
+    }
+  }
+
   // ── AVISOS ───────────────────────────────────────────────
   async function loadAvisos() {
     try {
-      const res = await fetch(AVISOS_CSV_URL + '&t=' + Date.now());
+      const res = await fetch(AVISOS_CSV + '&t=' + Date.now());
       if (!res.ok) throw new Error();
       const rows = parseCSV(await res.text()).filter(r => r.aviso && (r.ativo || '').toLowerCase() === 'sim');
       const lista = document.getElementById('avisos-lista');
@@ -887,39 +958,27 @@
 
   // ── ANIVERSARIANTES ──────────────────────────────────────
   async function loadAniversariantes() {
-    const agora   = new Date();
+    const agora    = new Date();
     const mesAtual = agora.getMonth() + 1;
     const diaAtual = agora.getDate();
-
     document.getElementById('aniv-mes').textContent = MESES[agora.getMonth()];
-
     try {
       const res = await fetch(ANIVERSARIO_CSV + '&t=' + Date.now());
       if (!res.ok) throw new Error();
       const rows = parseCSV(await res.text()).filter(r => r.nome && r.data);
-
-      // filtra pelo mês atual
-      const doMes = rows.filter(r => {
-        const partes = r.data.split('/');
-        return parseInt(partes[1]) === mesAtual;
-      }).sort((a, b) => {
-        return parseInt(a.data.split('/')[0]) - parseInt(b.data.split('/')[0]);
-      });
-
+      const doMes = rows.filter(r => parseInt(r.data.split('/')[1]) === mesAtual)
+                        .sort((a, b) => parseInt(a.data.split('/')[0]) - parseInt(b.data.split('/')[0]));
       const lista = document.getElementById('aniversariantes-lista');
-      if (doMes.length === 0) {
-        lista.innerHTML = '<div class="aniversariantes-vazio">Nenhum aniversariante este mês.</div>';
-      } else {
-        lista.innerHTML = doMes.map(r => {
-          const dia = parseInt(r.data.split('/')[0]);
-          const ehHoje = dia === diaAtual;
-          return `
-            <div class="aniversariante-item ${ehHoje ? 'hoje' : ''}">
+      lista.innerHTML = doMes.length === 0
+        ? '<div class="aniversariantes-vazio">Nenhum aniversariante este mês.</div>'
+        : doMes.map(r => {
+            const dia    = parseInt(r.data.split('/')[0]);
+            const ehHoje = dia === diaAtual;
+            return `<div class="aniversariante-item ${ehHoje ? 'hoje' : ''}">
               <span class="aniv-dia">${String(dia).padStart(2,'0')}</span>
               <span class="aniv-nome">${r.nome}${ehHoje ? ' 🎂' : ''}</span>
             </div>`;
-        }).join('');
-      }
+          }).join('');
     } catch {
       document.getElementById('aniversariantes-lista').innerHTML = '<div class="aniversariantes-vazio">Não foi possível carregar.</div>';
     }
@@ -957,7 +1016,6 @@
 
     TABS_CONFIG.forEach(tab => {
       const items = groups[tab.id] || [];
-
       const btn = document.createElement('button');
       btn.className = 'tab-btn' + (firstActive ? ' active' : '');
       btn.setAttribute('data-tab', tab.id);
@@ -1000,7 +1058,6 @@
         });
         panel.appendChild(list);
       }
-
       content.appendChild(panel);
       firstActive = false;
     });
@@ -1009,7 +1066,7 @@
   // ── FETCH MATERIAIS ──────────────────────────────────────
   async function loadFromSheets() {
     try {
-      const res = await fetch(SHEETS_CSV_URL + '&t=' + Date.now());
+      const res = await fetch(MATERIAIS_CSV + '&t=' + Date.now());
       if (!res.ok) throw new Error();
       renderPortal(parseCSV(await res.text()).filter(r => r.materia && r.nome && r.id));
     } catch {
@@ -1025,7 +1082,7 @@
   async function recarregarTudo() {
     const btn = document.getElementById('btn-refresh');
     btn.classList.add('spinning');
-    await Promise.all([loadFromSheets(), loadAvisos(), loadAniversariantes()]);
+    await Promise.all([loadFromSheets(), loadAvisos(), loadAniversariantes(), loadQuadro()]);
     btn.classList.remove('spinning');
   }
 
@@ -1040,6 +1097,7 @@
       loadFromSheets();
       loadAvisos();
       loadAniversariantes();
+      loadQuadro();
       updateCountdown();
       setInterval(updateCountdown, 1000);
     } else {
