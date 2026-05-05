@@ -157,7 +157,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
     border-bottom: 0.5px solid rgba(201,168,76,0.2);
   }
@@ -202,6 +202,67 @@
     white-space: nowrap;
   }
 
+  /* ── ASPIRANTÔMETRO ── */
+  .aspirantometro {
+    background: rgba(201,168,76,0.06);
+    border: 0.5px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .aspirantometro-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .aspirantometro-date {
+    font-size: 11px;
+    color: rgba(245,240,232,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .countdown-blocks {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .countdown-block {
+    text-align: center;
+    background: rgba(201,168,76,0.08);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    min-width: 52px;
+  }
+
+  .countdown-block .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--dourado);
+    line-height: 1;
+    display: block;
+    letter-spacing: 2px;
+  }
+
+  .countdown-block .lbl {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.3);
+    display: block;
+    margin-top: 3px;
+  }
+
   /* ── ABAS ── */
   .tabs-nav {
     display: flex;
@@ -234,7 +295,6 @@
     color: var(--dourado);
   }
 
-  /* badge contador na aba */
   .tab-count {
     display: inline-flex;
     align-items: center;
@@ -249,9 +309,7 @@
     min-width: 18px;
   }
 
-  .tab-btn.active .tab-count {
-    background: rgba(201,168,76,0.3);
-  }
+  .tab-btn.active .tab-count { background: rgba(201,168,76,0.3); }
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
@@ -325,7 +383,7 @@
 
   .btn-download:hover { background: var(--dourado); color: var(--verde); }
 
-  /* ── LOADING STATE ── */
+  /* ── LOADING / ERROR / EMPTY ── */
   .loading-state {
     text-align: center;
     padding: 3rem 1rem;
@@ -341,18 +399,9 @@
     margin: 0 auto 12px;
   }
 
-  .loading-state p {
-    font-size: 12px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
+  .loading-state p { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
 
-  .error-state {
-    text-align: center;
-    padding: 2rem 1rem;
-    color: #e87070;
-    font-size: 13px;
-  }
+  .error-state { text-align: center; padding: 2rem 1rem; color: #e87070; font-size: 13px; }
 
   .empty-state {
     text-align: center;
@@ -362,6 +411,7 @@
     letter-spacing: 0.5px;
   }
 
+  /* ── FOOTER ── */
   .portal-footer {
     margin-top: 2rem;
     padding-top: 1.25rem;
@@ -395,28 +445,23 @@
     transition: all 0.2s;
   }
 
-  .btn-refresh:hover {
-    border-color: var(--dourado);
-    color: var(--dourado);
-  }
+  .btn-refresh:hover { border-color: var(--dourado); color: var(--dourado); }
+  .btn-refresh.spinning svg { animation: spin 0.8s linear infinite; }
 
-  .btn-refresh.spinning svg {
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 560px) {
     .access-badge { display: none; }
     .btn-download { padding: 6px 10px; font-size: 10px; }
     .tab-btn { font-size: 11px; padding: 6px 12px; }
+    .countdown-blocks { margin-left: 0; }
+    .countdown-block .num { font-size: 22px; }
+    .countdown-block { min-width: 44px; padding: 6px 8px; }
   }
 </style>
 </head>
@@ -454,6 +499,32 @@
     <span class="access-badge">✓ Acesso autorizado</span>
   </div>
 
+  <!-- ASPIRANTÔMETRO -->
+  <div class="aspirantometro">
+    <div class="aspirantometro-info">
+      <div class="aspirantometro-title">🎖️ Aspirantômetro</div>
+      <div class="aspirantometro-date">Formatura · 02 de julho de 2027</div>
+    </div>
+    <div class="countdown-blocks">
+      <div class="countdown-block">
+        <span class="num" id="cd-dias">--</span>
+        <span class="lbl">Dias</span>
+      </div>
+      <div class="countdown-block">
+        <span class="num" id="cd-horas">--</span>
+        <span class="lbl">Horas</span>
+      </div>
+      <div class="countdown-block">
+        <span class="num" id="cd-min">--</span>
+        <span class="lbl">Min</span>
+      </div>
+      <div class="countdown-block">
+        <span class="num" id="cd-seg">--</span>
+        <span class="lbl">Seg</span>
+      </div>
+    </div>
+  </div>
+
   <div class="tabs-nav" id="tabs-nav">
     <!-- gerado dinamicamente -->
   </div>
@@ -478,20 +549,41 @@
 </div>
 
 <script>
-  // ── CONFIG ──────────────────────────────────────────────
+  // ── CONFIG ───────────────────────────────────────────────
   const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?output=csv';
 
-  // Ordem e rótulos das abas
   const TABS_CONFIG = [
-    { id: 'fluidos',      label: 'Mecânica dos Fluidos'    },
-    { id: 'direito',      label: 'Direito Penal Militar'   },
-    { id: 'estatistica',  label: 'Estatística'             },
-    { id: 'fisica',       label: 'Física 3'                },
-    { id: 'ensino',       label: 'Téc. Prática de Ensino'  },
-    { id: 'estruturais',  label: 'Sistemas Estruturais'    },
+    { id: 'fluidos',      label: 'Mecânica dos Fluidos'   },
+    { id: 'direito',      label: 'Direito Penal Militar'  },
+    { id: 'estatistica',  label: 'Estatística'            },
+    { id: 'fisica',       label: 'Física 3'               },
+    { id: 'ensino',       label: 'Téc. Prática de Ensino' },
+    { id: 'estruturais',  label: 'Sistemas Estruturais'   },
   ];
 
-  // Ícone por tipo
+  // ── ASPIRANTÔMETRO ───────────────────────────────────────
+  const FORMATURA = new Date('2027-07-02T10:00:00');
+
+  function updateCountdown() {
+    const diff = FORMATURA - new Date();
+    if (diff <= 0) {
+      ['cd-dias','cd-horas','cd-min','cd-seg'].forEach(id => {
+        document.getElementById(id).textContent = '00';
+      });
+      return;
+    }
+    const dias  = Math.floor(diff / 86400000);
+    const horas = Math.floor((diff % 86400000) / 3600000);
+    const min   = Math.floor((diff % 3600000) / 60000);
+    const seg   = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('cd-dias').textContent  = String(dias).padStart(2, '0');
+    document.getElementById('cd-horas').textContent = String(horas).padStart(2, '0');
+    document.getElementById('cd-min').textContent   = String(min).padStart(2, '0');
+    document.getElementById('cd-seg').textContent   = String(seg).padStart(2, '0');
+  }
+
+  // ── ÍCONE POR TIPO ───────────────────────────────────────
   function getIcon(tipo) {
     const t = (tipo || '').toLowerCase();
     if (t.includes('livro'))                             return '📚';
@@ -504,12 +596,11 @@
     return '📄';
   }
 
-  // ── PARSER CSV ──────────────────────────────────────────
+  // ── PARSER CSV ───────────────────────────────────────────
   function parseCSV(text) {
     const lines = text.trim().split('\n');
     const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
     return lines.slice(1).map(line => {
-      // suporte a campos com vírgula dentro de aspas
       const cols = [];
       let cur = '', inQ = false;
       for (let i = 0; i < line.length; i++) {
@@ -524,14 +615,13 @@
     }).filter(r => r.materia && r.nome && r.id);
   }
 
-  // ── RENDER ──────────────────────────────────────────────
+  // ── RENDER ───────────────────────────────────────────────
   function renderPortal(rows) {
-    const nav    = document.getElementById('tabs-nav');
+    const nav     = document.getElementById('tabs-nav');
     const content = document.getElementById('tabs-content');
     nav.innerHTML = '';
     content.innerHTML = '';
 
-    // agrupa por materia
     const groups = {};
     TABS_CONFIG.forEach(t => groups[t.id] = []);
     rows.forEach(r => {
@@ -545,7 +635,6 @@
     TABS_CONFIG.forEach(tab => {
       const items = groups[tab.id] || [];
 
-      // botão da aba
       const btn = document.createElement('button');
       btn.className = 'tab-btn' + (firstActive ? ' active' : '');
       btn.setAttribute('data-tab', tab.id);
@@ -553,15 +642,14 @@
       btn.onclick = (e) => openTab(e, tab.id);
       nav.appendChild(btn);
 
-      // painel
       const panel = document.createElement('div');
       panel.className = 'tab-panel' + (firstActive ? ' active' : '');
       panel.id = tab.id;
 
-      const label = document.createElement('div');
-      label.className = 'section-label';
-      label.textContent = tab.label;
-      panel.appendChild(label);
+      const lbl = document.createElement('div');
+      lbl.className = 'section-label';
+      lbl.textContent = tab.label;
+      panel.appendChild(lbl);
 
       if (items.length === 0) {
         const empty = document.createElement('div');
@@ -600,18 +688,16 @@
     });
   }
 
-  // ── FETCH SHEETS ────────────────────────────────────────
+  // ── FETCH SHEETS ─────────────────────────────────────────
   async function loadFromSheets() {
     const btn = document.getElementById('btn-refresh');
     btn.classList.add('spinning');
-
     try {
-      const res = await fetch(SHEETS_CSV_URL + '&t=' + Date.now()); // cache bust
-      if (!res.ok) throw new Error('Erro ao buscar planilha');
+      const res = await fetch(SHEETS_CSV_URL + '&t=' + Date.now());
+      if (!res.ok) throw new Error();
       const text = await res.text();
-      const rows = parseCSV(text);
-      renderPortal(rows);
-    } catch (err) {
+      renderPortal(parseCSV(text));
+    } catch {
       document.getElementById('tabs-content').innerHTML = `
         <div class="error-state">
           ⚠️ Não foi possível carregar os materiais.<br>
@@ -623,7 +709,7 @@
     }
   }
 
-  // ── LOGIN ────────────────────────────────────────────────
+  // ── LOGIN ─────────────────────────────────────────────────
   function checkPassword() {
     var input = document.getElementById('pw-input').value;
     if (input === 'fenamissao') {
@@ -632,6 +718,8 @@
       portal.style.display = 'block';
       portal.classList.add('visible');
       loadFromSheets();
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
     } else {
       document.getElementById('err-msg').textContent = 'Senha incorreta. Tente novamente.';
       document.getElementById('pw-input').value = '';
