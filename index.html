@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aspirantes 2027 — CFO Paraíba</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dourado: #c9a84c;
+    --dourado-claro: #e8c87a;
+    --creme: #f5f0e8;
+    --verde: #1a3a2a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: url('wallpaper.png') center center / cover no-repeat fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 14, 0.35);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── TELA DE SENHA ── */
+  #gate {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .gate-emblem { text-align: center; margin-bottom: 2rem; }
+
+  .emblem-ring {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px; height: 220px;
+    margin-bottom: 1rem;
+  }
+
+  .emblem-ring img {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+  }
+
+  .gate-emblem h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--creme);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .gate-emblem p {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dourado);
+    font-weight: 300;
+  }
+
+  .gate-card {
+    background: rgba(250,250,248,0.06);
+    border: 0.5px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    padding: 2rem;
+    backdrop-filter: blur(8px);
+  }
+
+  .gate-card label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dourado);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .pw-wrap { position: relative; margin-bottom: 14px; }
+
+  .pw-wrap input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 0.5px solid rgba(201,168,76,0.4);
+    border-radius: 8px;
+    padding: 13px 16px;
+    font-size: 15px;
+    color: var(--creme);
+    letter-spacing: 3px;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+  }
+
+  .pw-wrap input::placeholder { letter-spacing: 1px; color: rgba(245,240,232,0.3); font-size: 13px; }
+  .pw-wrap input:focus { border-color: var(--dourado); background: rgba(255,255,255,0.08); }
+
+  .btn-enter {
+    width: 100%;
+    background: var(--dourado);
+    color: var(--verde);
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-enter:hover { background: var(--dourado-claro); }
+  .btn-enter:active { transform: scale(0.98); }
+
+  .err-msg {
+    font-size: 12px;
+    color: #e87070;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 18px;
+  }
+
+  /* ── PORTAL ── */
+  #portal {
+    display: none;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 780px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  #portal.visible { display: block; }
+
+  .portal-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid rgba(201,168,76,0.2);
+  }
+
+  .portal-logo {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .portal-logo img { width: 100%; height: 100%; object-fit: contain; }
+
+  .portal-header-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--creme);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .portal-header-text p {
+    font-size: 12px;
+    color: var(--dourado);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  .access-badge {
+    margin-left: auto;
+    background: rgba(61,122,82,0.3);
+    border: 0.5px solid rgba(61,122,82,0.6);
+    color: #7ec89a;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── ABAS ── */
+  .tabs-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    color: rgba(245,240,232,0.6);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .tab-btn:hover { border-color: rgba(201,168,76,0.5); color: var(--creme); }
+
+  .tab-btn.active {
+    background: rgba(201,168,76,0.15);
+    border-color: var(--dourado);
+    color: var(--dourado);
+  }
+
+  /* badge contador na aba */
+  .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201,168,76,0.2);
+    color: var(--dourado);
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    margin-left: 6px;
+    min-width: 18px;
+  }
+
+  .tab-btn.active .tab-count {
+    background: rgba(201,168,76,0.3);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.5);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .files-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .file-card {
+    background: rgba(250,250,248,0.05);
+    border: 0.5px solid rgba(201,168,76,0.15);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .file-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(250,250,248,0.08); }
+
+  .file-type-badge {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: rgba(201,168,76,0.1);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .file-info { flex: 1; }
+
+  .file-info .file-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--creme);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .file-info .file-meta {
+    font-size: 11px;
+    color: rgba(245,240,232,0.35);
+  }
+
+  .btn-download {
+    background: transparent;
+    border: 0.5px solid var(--dourado);
+    color: var(--dourado);
+    border-radius: 7px;
+    padding: 7px 16px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-download:hover { background: var(--dourado); color: var(--verde); }
+
+  /* ── LOADING STATE ── */
+  .loading-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: rgba(245,240,232,0.4);
+  }
+
+  .loading-spinner {
+    width: 28px; height: 28px;
+    border: 2px solid rgba(201,168,76,0.2);
+    border-top-color: var(--dourado);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 12px;
+  }
+
+  .loading-state p {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .error-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #e87070;
+    font-size: 13px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: rgba(245,240,232,0.3);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  .portal-footer {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 0.5px solid rgba(201,168,76,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-text {
+    font-size: 11px;
+    color: rgba(245,240,232,0.25);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .btn-refresh {
+    background: transparent;
+    border: 0.5px solid rgba(201,168,76,0.3);
+    color: rgba(201,168,76,0.5);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-refresh:hover {
+    border-color: var(--dourado);
+    color: var(--dourado);
+  }
+
+  .btn-refresh.spinning svg {
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .access-badge { display: none; }
+    .btn-download { padding: 6px 10px; font-size: 10px; }
+    .tab-btn { font-size: 11px; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TELA DE SENHA -->
+<div id="gate">
+  <div class="gate-emblem">
+    <div class="emblem-ring">
+      <img src="logo.png" alt="Aspirantes 2027" />
+    </div>
+    <h1>Aspirantes 2027</h1>
+    <p>CFO · Paraíba · Acesso Restrito</p>
+  </div>
+  <div class="gate-card">
+    <label>Senha da turma</label>
+    <div class="pw-wrap">
+      <input type="password" id="pw-input" placeholder="Digite a senha de acesso" autocomplete="off" />
+    </div>
+    <button class="btn-enter" onclick="checkPassword()">Entrar</button>
+    <div class="err-msg" id="err-msg"></div>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal">
+  <div class="portal-header">
+    <div class="portal-logo">
+      <img src="logo.png" alt="Aspirantes 2027" />
+    </div>
+    <div class="portal-header-text">
+      <h2>Turma Aspirantes 2027</h2>
+      <p>Portal de Materiais — CFO Paraíba</p>
+    </div>
+    <span class="access-badge">✓ Acesso autorizado</span>
+  </div>
+
+  <div class="tabs-nav" id="tabs-nav">
+    <!-- gerado dinamicamente -->
+  </div>
+
+  <div id="tabs-content">
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Carregando materiais...</p>
+    </div>
+  </div>
+
+  <div class="portal-footer">
+    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026</span>
+    <button class="btn-refresh" id="btn-refresh" onclick="loadFromSheets()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px">
+        <path d="M23 4v6h-6M1 20v-6h6"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+      Atualizar
+    </button>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────
+  const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?output=csv';
+
+  // Ordem e rótulos das abas
+  const TABS_CONFIG = [
+    { id: 'fluidos',      label: 'Mecânica dos Fluidos'    },
+    { id: 'direito',      label: 'Direito Penal Militar'   },
+    { id: 'estatistica',  label: 'Estatística'             },
+    { id: 'fisica',       label: 'Física 3'                },
+    { id: 'ensino',       label: 'Téc. Prática de Ensino'  },
+    { id: 'estruturais',  label: 'Sistemas Estruturais'    },
+  ];
+
+  // Ícone por tipo
+  function getIcon(tipo) {
+    const t = (tipo || '').toLowerCase();
+    if (t.includes('livro'))   return '📚';
+    if (t.includes('planilha') || t.includes('sheets')) return '📊';
+    if (t.includes('txt'))     return '📝';
+    if (t.includes('docx'))    return '📄';
+    if (t.includes('simulad')) return '📋';
+    if (t.includes('estudo'))  return '📖';
+    return '📄';
+  }
+
+  // ── PARSER CSV ──────────────────────────────────────────
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+    return lines.slice(1).map(line => {
+      // suporte a campos com vírgula dentro de aspas
+      const cols = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        if (line[i] === '"') { inQ = !inQ; continue; }
+        if (line[i] === ',' && !inQ) { cols.push(cur.trim()); cur = ''; continue; }
+        cur += line[i];
+      }
+      cols.push(cur.trim());
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = (cols[i] || '').replace(/^"|"$/g, '').trim());
+      return obj;
+    }).filter(r => r.materia && r.nome && r.id);
+  }
+
+  // ── RENDER ──────────────────────────────────────────────
+  function renderPortal(rows) {
+    const nav    = document.getElementById('tabs-nav');
+    const content = document.getElementById('tabs-content');
+    nav.innerHTML = '';
+    content.innerHTML = '';
+
+    // agrupa por materia
+    const groups = {};
+    TABS_CONFIG.forEach(t => groups[t.id] = []);
+    rows.forEach(r => {
+      const key = r.materia.trim().toLowerCase();
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(r);
+    });
+
+    let firstActive = true;
+
+    TABS_CONFIG.forEach(tab => {
+      const items = groups[tab.id] || [];
+
+      // botão da aba
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn' + (firstActive ? ' active' : '');
+      btn.setAttribute('data-tab', tab.id);
+      btn.innerHTML = `${tab.label}<span class="tab-count">${items.length}</span>`;
+      btn.onclick = (e) => openTab(e, tab.id);
+      nav.appendChild(btn);
+
+      // painel
+      const panel = document.createElement('div');
+      panel.className = 'tab-panel' + (firstActive ? ' active' : '');
+      panel.id = tab.id;
+
+      const label = document.createElement('div');
+      label.className = 'section-label';
+      label.textContent = tab.label;
+      panel.appendChild(label);
+
+      if (items.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = 'Nenhum material disponível ainda.';
+        panel.appendChild(empty);
+      } else {
+        const list = document.createElement('div');
+        list.className = 'files-list';
+
+        items.forEach(item => {
+          const isSheets = (item.tipo || '').toLowerCase().includes('sheets') || (item.tipo || '').toLowerCase().includes('planilha');
+          const href = isSheets
+            ? item.id  // id é a URL completa para planilhas
+            : `https://drive.google.com/uc?export=download&id=${item.id}`;
+
+          const card = document.createElement('div');
+          card.className = 'file-card';
+          card.innerHTML = `
+            <div class="file-type-badge">${getIcon(item.tipo)}</div>
+            <div class="file-info">
+              <span class="file-name">${item.nome}</span>
+              <span class="file-meta">${item.tipo || ''}</span>
+            </div>
+            <a class="btn-download" href="${href}" target="_blank">${isSheets ? 'Abrir' : 'Baixar'}</a>
+          `;
+          list.appendChild(card);
+        });
+
+        panel.appendChild(list);
+      }
+
+      content.appendChild(panel);
+      firstActive = false;
+    });
+  }
+
+  // ── FETCH SHEETS ────────────────────────────────────────
+  async function loadFromSheets() {
+    const btn = document.getElementById('btn-refresh');
+    btn.classList.add('spinning');
+
+    try {
+      const res = await fetch(SHEETS_CSV_URL + '&t=' + Date.now()); // cache bust
+      if (!res.ok) throw new Error('Erro ao buscar planilha');
+      const text = await res.text();
+      const rows = parseCSV(text);
+      renderPortal(rows);
+    } catch (err) {
+      document.getElementById('tabs-content').innerHTML = `
+        <div class="error-state">
+          ⚠️ Não foi possível carregar os materiais.<br>
+          <small style="opacity:0.6;font-size:11px;">Verifique sua conexão ou tente novamente.</small>
+        </div>`;
+      document.getElementById('tabs-nav').innerHTML = '';
+    } finally {
+      btn.classList.remove('spinning');
+    }
+  }
+
+  // ── LOGIN ────────────────────────────────────────────────
+  function checkPassword() {
+    var input = document.getElementById('pw-input').value;
+    if (input === 'fenamissao') {
+      document.getElementById('gate').style.display = 'none';
+      var portal = document.getElementById('portal');
+      portal.style.display = 'block';
+      portal.classList.add('visible');
+      loadFromSheets();
+    } else {
+      document.getElementById('err-msg').textContent = 'Senha incorreta. Tente novamente.';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  function openTab(evt, tabId) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    evt.currentTarget.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
