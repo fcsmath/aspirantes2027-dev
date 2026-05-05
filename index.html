@@ -215,7 +215,6 @@
   }
 
   .aspirantometro-date { font-size: 11px; color: rgba(245,240,232,0.3); letter-spacing: 0.5px; }
-
   .countdown-blocks { display: flex; gap: 8px; margin-left: auto; }
 
   .countdown-block {
@@ -287,9 +286,84 @@
     display: inline-block;
     white-space: nowrap;
     transition: background 0.2s, color 0.2s;
+    border: 0.5px solid var(--dourado);
   }
 
   .btn-ver-quadro:hover { background: var(--dourado); color: var(--verde); }
+
+  /* ── MODAL QUADRO ── */
+  .modal-quadro-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,12,8,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+  }
+
+  .modal-quadro-overlay.open { display: flex; }
+
+  .modal-quadro-box {
+    background: #0e1f15;
+    border: 0.5px solid rgba(201,168,76,0.3);
+    border-radius: 14px;
+    padding: 1.25rem;
+    width: 100%;
+    max-width: 720px;
+    animation: fadeUp 0.25s ease both;
+  }
+
+  .modal-quadro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .modal-quadro-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 3px;
+    color: var(--dourado);
+  }
+
+  .btn-fechar-quadro {
+    background: transparent;
+    border: 0.5px solid rgba(245,240,232,0.2);
+    color: rgba(245,240,232,0.5);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .btn-fechar-quadro:hover { border-color: rgba(245,240,232,0.4); color: rgba(245,240,232,0.8); }
+
+  .quadro-iframe-wrap {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.3);
+  }
+
+  .quadro-iframe-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+  }
 
   /* ── MURAL DE AVISOS ── */
   .mural-card {
@@ -419,7 +493,7 @@
     padding: 8px 0;
   }
 
-  /* ── MODAL ── */
+  /* ── MODAL AVISOS ── */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -478,7 +552,6 @@
   }
 
   .modal-input:focus { border-color: var(--dourado); }
-
   .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
 
   .btn-modal-cancel {
@@ -686,6 +759,7 @@
     .countdown-blocks { margin-left: 0; }
     .countdown-block .num { font-size: 22px; }
     .countdown-block { min-width: 44px; padding: 6px 8px; }
+    .quadro-iframe-wrap { padding-bottom: 120%; }
   }
 </style>
 </head>
@@ -707,6 +781,19 @@
     </div>
     <button class="btn-enter" onclick="checkPassword()">Entrar</button>
     <div class="err-msg" id="err-msg"></div>
+  </div>
+</div>
+
+<!-- MODAL QUADRO -->
+<div class="modal-quadro-overlay" id="modal-quadro">
+  <div class="modal-quadro-box">
+    <div class="modal-quadro-header">
+      <div class="modal-quadro-titulo">📋 Quadro de Trabalho</div>
+      <button class="btn-fechar-quadro" onclick="fecharQuadro()">✕ Fechar</button>
+    </div>
+    <div class="quadro-iframe-wrap">
+      <iframe id="quadro-iframe" src="" allowfullscreen></iframe>
+    </div>
   </div>
 </div>
 
@@ -783,7 +870,7 @@
   </div>
 
   <!-- QUADRO DE TRABALHO -->
-  <div class="quadro-card" id="quadro-card">
+  <div class="quadro-card">
     <div class="quadro-info">
       <div class="quadro-titulo">📋 Quadro de Trabalho</div>
       <div class="quadro-nome" id="quadro-nome">Carregando...</div>
@@ -813,9 +900,7 @@
     </div>
   </div>
 
-  <div class="tabs-nav" id="tabs-nav">
-    <!-- gerado dinamicamente -->
-  </div>
+  <div class="tabs-nav" id="tabs-nav"></div>
 
   <div id="tabs-content">
     <div class="loading-state">
@@ -838,11 +923,11 @@
 
 <script>
   // ── CONFIG ───────────────────────────────────────────────
-  const MATERIAIS_CSV    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=0&single=true&output=csv';
-  const AVISOS_CSV       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1646647707&single=true&output=csv';
-  const ANIVERSARIO_CSV  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=384779462&single=true&output=csv';
-  const QUADRO_CSV       = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1405606780&single=true&output=csv';
-  const SENHA_AVISO      = 'novidadenova';
+  const MATERIAIS_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=0&single=true&output=csv';
+  const AVISOS_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1646647707&single=true&output=csv';
+  const ANIVERSARIO_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=384779462&single=true&output=csv';
+  const QUADRO_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1405606780&single=true&output=csv';
+  const SENHA_AVISO     = 'novidadenova';
 
   const TABS_CONFIG = [
     { id: 'fluidos',      label: 'Mecânica dos Fluidos'   },
@@ -874,7 +959,18 @@
     document.getElementById('cd-seg').textContent   = String(seg).padStart(2,'0');
   }
 
-  // ── MODAL ────────────────────────────────────────────────
+  // ── MODAL QUADRO ─────────────────────────────────────────
+  function abrirQuadro(link) {
+    document.getElementById('quadro-iframe').src = link;
+    document.getElementById('modal-quadro').classList.add('open');
+  }
+
+  function fecharQuadro() {
+    document.getElementById('modal-quadro').classList.remove('open');
+    document.getElementById('quadro-iframe').src = '';
+  }
+
+  // ── MODAL AVISOS ─────────────────────────────────────────
   function abrirModal() {
     document.getElementById('modal-aviso').classList.add('open');
     document.getElementById('modal-step-1').style.display = 'block';
@@ -898,8 +994,12 @@
     }
   }
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModal(); });
-  document.getElementById('modal-pw').addEventListener('keydown', e => { if (e.key === 'Enter') verificarSenhaAviso(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { fecharModal(); fecharQuadro(); }
+  });
+  document.getElementById('modal-pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verificarSenhaAviso();
+  });
 
   // ── PARSER CSV ───────────────────────────────────────────
   function parseCSV(text) {
@@ -920,7 +1020,7 @@
     });
   }
 
-  // ── QUADRO DE TRABALHO ───────────────────────────────────
+  // ── QUADRO ───────────────────────────────────────────────
   async function loadQuadro() {
     try {
       const res = await fetch(QUADRO_CSV + '&t=' + Date.now());
@@ -934,7 +1034,7 @@
       } else {
         const ultimo = rows[rows.length - 1];
         nomeEl.textContent = ultimo.nome;
-        btnWrap.innerHTML  = `<a class="btn-ver-quadro" href="${ultimo.link}" target="_blank">Ver Quadro</a>`;
+        btnWrap.innerHTML  = `<button class="btn-ver-quadro" onclick="abrirQuadro('${ultimo.link}')">Ver Quadro</button>`;
       }
     } catch {
       document.getElementById('quadro-nome').textContent = 'Não foi possível carregar.';
