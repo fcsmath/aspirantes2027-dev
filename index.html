@@ -714,6 +714,21 @@
   .file-info .file-name { font-size: 14px; font-weight: 500; color: var(--creme); display: block; margin-bottom: 2px; }
   .file-info .file-meta { font-size: 11px; color: rgba(245,240,232,0.35); }
 
+  .badge-novo {
+    display: inline-block;
+    background: rgba(126,200,154,0.15);
+    border: 0.5px solid rgba(126,200,154,0.4);
+    color: #7ec89a;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
   .btn-download {
     background: transparent;
     border: 0.5px solid var(--dourado);
@@ -1176,6 +1191,19 @@
     }
   }
 
+  // ── BADGE NOVO ──────────────────────────────────────────
+  function isNovo(dataStr) {
+    if (!dataStr) return false;
+    try {
+      const partes = dataStr.trim().split(' ');
+      const [dia, mes, ano] = partes[0].split('/');
+      const [hora, min] = (partes[1] || '00:00').split(':');
+      const data = new Date(ano, mes - 1, dia, hora, min);
+      const diffDias = (new Date() - data) / 86400000;
+      return diffDias <= 3;
+    } catch { return false; }
+  }
+
   // ── ÍCONE POR TIPO ───────────────────────────────────────
   function getIcon(tipo) {
     const t = (tipo || '').toLowerCase();
@@ -1236,12 +1264,13 @@
           const t = (item.tipo || '').toLowerCase();
           const isDirectLink = t.includes('sheets') || t.includes('planilha') || t.includes('ppt') || t.includes('apresent');
           const href = isDirectLink ? item.id : `https://drive.google.com/uc?export=download&id=${item.id}`;
+          const novo = isNovo(item.data);
           const card = document.createElement('div');
           card.className = 'file-card';
           card.innerHTML = `
             <div class="file-type-badge">${getIcon(item.tipo)}</div>
             <div class="file-info">
-              <span class="file-name">${item.nome}</span>
+              <span class="file-name">${item.nome}${novo ? '<span class="badge-novo">Novo</span>' : ''}</span>
               <span class="file-meta">${item.tipo || ''}</span>
             </div>
             <a class="btn-download" href="${href}" target="_blank">${isDirectLink ? 'Abrir' : 'Baixar'}</a>
