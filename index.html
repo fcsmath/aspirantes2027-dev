@@ -417,6 +417,21 @@
     color: rgba(245,240,232,0.8);
     line-height: 1.5;
     animation: fadeUp 0.3s ease both;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .aviso-texto { flex: 1; }
+
+  .aviso-tempo {
+    font-size: 10px;
+    color: rgba(245,240,232,0.25);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
   }
 
   .avisos-vazio {
@@ -820,7 +835,7 @@
       <div class="modal-btns">
         <button class="btn-modal-cancel" onclick="fecharModal()">Fechar</button>
         <a class="btn-modal-confirm"
-           href="https://docs.google.com/spreadsheets/d/1HevQE_BQXM6jUFXMlJcdu73LK8sDQ8VCD7aOCS9Gkr8/edit?gid=1646647707#gid=1646647707"
+           href="https://docs.google.com/spreadsheets/d/1C4BekWGg4Gd01eAIIUexQ2QUxJRMIRtpYYJXcfADH_4/edit?gid=1646647707#gid=1646647707"
            target="_blank"
            onclick="fecharModal()">
           Abrir Planilha
@@ -910,7 +925,7 @@
   </div>
 
   <div class="portal-footer">
-    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026</span>
+    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026 &nbsp;·&nbsp; v0.1</span>
     <button class="btn-refresh" id="btn-refresh" onclick="recarregarTudo()">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px">
         <path d="M23 4v6h-6M1 20v-6h6"/>
@@ -923,10 +938,10 @@
 
 <script>
   // ── CONFIG ───────────────────────────────────────────────
-  const MATERIAIS_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=0&single=true&output=csv';
-  const AVISOS_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1646647707&single=true&output=csv';
-  const ANIVERSARIO_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=384779462&single=true&output=csv';
-  const QUADRO_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1405606780&single=true&output=csv';
+  const MATERIAIS_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmEhxiInOA2zt19dg_CNAG1mFVc82EgYnhj6zmlzt-u7p1OREpB_2819k7NyD0A7Lb-_nL7V4gbwyL/pub?gid=0&single=true&output=csv';
+  const AVISOS_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmEhxiInOA2zt19dg_CNAG1mFVc82EgYnhj6zmlzt-u7p1OREpB_2819k7NyD0A7Lb-_nL7V4gbwyL/pub?gid=1646647707&single=true&output=csv';
+  const ANIVERSARIO_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmEhxiInOA2zt19dg_CNAG1mFVc82EgYnhj6zmlzt-u7p1OREpB_2819k7NyD0A7Lb-_nL7V4gbwyL/pub?gid=384779462&single=true&output=csv';
+  const QUADRO_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRmEhxiInOA2zt19dg_CNAG1mFVc82EgYnhj6zmlzt-u7p1OREpB_2819k7NyD0A7Lb-_nL7V4gbwyL/pub?gid=1405606780&single=true&output=csv';
   const SENHA_AVISO     = 'novidadenova';
 
   const TABS_CONFIG = [
@@ -1041,6 +1056,24 @@
     }
   }
 
+  // ── TEMPO RELATIVO ──────────────────────────────────────
+  function tempoRelativo(dataStr) {
+    try {
+      // formato esperado: DD/MM/AAAA HH:MM
+      const partes = dataStr.trim().split(' ');
+      const [dia, mes, ano] = partes[0].split('/');
+      const [hora, min] = (partes[1] || '00:00').split(':');
+      const data = new Date(ano, mes - 1, dia, hora, min);
+      const diff = Math.floor((new Date() - data) / 1000);
+      if (diff < 60)           return 'agora mesmo';
+      if (diff < 3600)         return `há ${Math.floor(diff/60)} min`;
+      if (diff < 86400)        return `há ${Math.floor(diff/3600)}h`;
+      if (diff < 172800)       return 'ontem';
+      if (diff < 604800)       return `há ${Math.floor(diff/86400)} dias`;
+      return partes[0];
+    } catch { return ''; }
+  }
+
   // ── AVISOS ───────────────────────────────────────────────
   async function loadAvisos() {
     try {
@@ -1050,7 +1083,13 @@
       const lista = document.getElementById('avisos-lista');
       lista.innerHTML = rows.length === 0
         ? '<div class="avisos-vazio">Nenhum aviso no momento.</div>'
-        : rows.map(r => `<div class="aviso-item">📌 ${r.aviso}</div>`).join('');
+        : rows.map(r => {
+          const tempo = r.data ? tempoRelativo(r.data) : '';
+          return `<div class="aviso-item">
+            <span class="aviso-texto">📌 ${r.aviso}</span>
+            ${tempo ? `<span class="aviso-tempo">${tempo}</span>` : ''}
+          </div>`;
+        }).join('');
     } catch {
       document.getElementById('avisos-lista').innerHTML = '<div class="avisos-vazio">Não foi possível carregar os avisos.</div>';
     }
