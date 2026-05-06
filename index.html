@@ -490,6 +490,26 @@
 
   .aniversariante-item.hoje { border-color: var(--dourado); background: rgba(201,168,76,0.15); }
   .aniversariante-item.hoje .aniv-nome { color: var(--dourado); font-weight: 500; }
+  .aniversariante-item.proximo { border-color: rgba(201,168,76,0.15); opacity: 0.6; }
+  .aniversariante-item.proximo .aniv-dia { color: rgba(245,240,232,0.4); }
+  .aniv-mes-tag {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.25);
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-left: 4px;
+  }
+  .aniversariantes-divisor {
+    width: 100%;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.2);
+    padding: 4px 0 2px;
+  }
 
   .aniv-dia {
     font-family: 'Bebas Neue', sans-serif;
@@ -1097,27 +1117,60 @@
 
   // ── ANIVERSARIANTES ──────────────────────────────────────
   async function loadAniversariantes() {
-    const agora    = new Date();
-    const mesAtual = agora.getMonth() + 1;
-    const diaAtual = agora.getDate();
+    const agora      = new Date();
+    const mesAtual   = agora.getMonth() + 1;
+    const diaAtual   = agora.getDate();
+    const proxMes    = mesAtual === 12 ? 1 : mesAtual + 1;
+    const mostrarProx = diaAtual <= 7;
+
     document.getElementById('aniv-mes').textContent = MESES[agora.getMonth()];
+
     try {
       const res = await fetch(ANIVERSARIO_CSV + '&t=' + Date.now());
       if (!res.ok) throw new Error();
       const rows = parseCSV(await res.text()).filter(r => r.nome && r.data);
+
       const doMes = rows.filter(r => parseInt(r.data.split('/')[1]) === mesAtual)
                         .sort((a, b) => parseInt(a.data.split('/')[0]) - parseInt(b.data.split('/')[0]));
+
+      const doProxMes = mostrarProx
+        ? rows.filter(r => parseInt(r.data.split('/')[1]) === proxMes)
+              .sort((a, b) => parseInt(a.data.split('/')[0]) - parseInt(b.data.split('/')[0]))
+        : [];
+
       const lista = document.getElementById('aniversariantes-lista');
-      lista.innerHTML = doMes.length === 0
-        ? '<div class="aniversariantes-vazio">Nenhum aniversariante este mês.</div>'
-        : doMes.map(r => {
-            const dia    = parseInt(r.data.split('/')[0]);
-            const ehHoje = dia === diaAtual;
-            return `<div class="aniversariante-item ${ehHoje ? 'hoje' : ''}">
+
+      let html = '';
+
+      if (doMes.length === 0 && doProxMes.length === 0) {
+        html = '<div class="aniversariantes-vazio">Nenhum aniversariante este mês.</div>';
+      } else {
+        html += doMes.map(r => {
+          const dia    = parseInt(r.data.split('/')[0]);
+          const ehHoje = dia === diaAtual;
+          return `<div class="aniversariante-item ${ehHoje ? 'hoje' : ''}">
+            <span class="aniv-dia">${String(dia).padStart(2,'0')}</span>
+            <span class="aniv-nome">${r.nome}${ehHoje ? ' 🎂' : ''}</span>
+          </div>`;
+        }).join('');
+
+        if (doMes.length === 0) {
+          html += '<div class="aniversariantes-vazio" style="text-align:left;padding:4px 0;">Nenhum aniversariante este mês.</div>';
+        }
+
+        if (doProxMes.length > 0) {
+          html += `<div class="aniversariantes-divisor">▸ ${MESES[proxMes - 1]}</div>`;
+          html += doProxMes.map(r => {
+            const dia = parseInt(r.data.split('/')[0]);
+            return `<div class="aniversariante-item proximo">
               <span class="aniv-dia">${String(dia).padStart(2,'0')}</span>
-              <span class="aniv-nome">${r.nome}${ehHoje ? ' 🎂' : ''}</span>
+              <span class="aniv-nome">${r.nome} <span class="aniv-mes-tag">${MESES[proxMes-1].substring(0,3)}</span></span>
             </div>`;
           }).join('');
+        }
+      }
+
+      lista.innerHTML = html;
     } catch {
       document.getElementById('aniversariantes-lista').innerHTML = '<div class="aniversariantes-vazio">Não foi possível carregar.</div>';
     }
@@ -1228,7 +1281,7 @@
   // ── LOGIN ─────────────────────────────────────────────────
   function checkPassword() {
     var input = document.getElementById('pw-input').value;
-    if (input === 'dev') {
+    if (input === 'fenamissao') {
       document.getElementById('gate').style.display = 'none';
       var portal = document.getElementById('portal');
       portal.style.display = 'block';
