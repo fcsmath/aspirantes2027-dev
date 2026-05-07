@@ -636,6 +636,40 @@
     min-height: 16px;
   }
 
+  /* ── CALENDÁRIO ── */
+  .calendario-card {
+    background: rgba(250,250,248,0.04);
+    border: 0.5px solid rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .calendario-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--dourado);
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+  }
+
+  .calendario-iframe-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0,0,0,0.2);
+  }
+
+  .calendario-iframe-wrap iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    border-radius: 8px;
+    filter: invert(0.9) hue-rotate(170deg) brightness(0.85);
+  }
+
   /* ── LINKS RÁPIDOS ── */
   .links-card {
     background: rgba(250,250,248,0.04);
@@ -865,6 +899,14 @@
     .quadro-iframe-wrap { padding-bottom: 120%; }
   }
 </style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FP2GLMX7C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FP2GLMX7C1');
+</script>
 </head>
 <body>
 
@@ -1003,6 +1045,14 @@
     </div>
   </div>
 
+  <!-- CALENDÁRIO -->
+  <div class="calendario-card">
+    <div class="calendario-titulo">📅 Calendário da Turma</div>
+    <div class="calendario-iframe-wrap">
+      <iframe src="https://calendar.google.com/calendar/embed?src=e9a0e45bf203554dc983aa1497da74710045824473fdb302b4094d022b22411e%40group.calendar.google.com&ctz=America%2FSao_Paulo&hl=pt_BR&bgcolor=%230e1f15&color=%23c9a84c" scrolling="no"></iframe>
+    </div>
+  </div>
+
   <!-- LINKS RÁPIDOS -->
   <div class="links-card">
     <div class="links-titulo">🔗 Links Rápidos</div>
@@ -1048,7 +1098,7 @@
   </div>
 
   <div class="portal-footer">
-    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026 &nbsp;·&nbsp; v0.1</span>
+    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026 &nbsp;·&nbsp; v0.3</span>
     <button class="btn-refresh" id="btn-refresh" onclick="recarregarTudo()">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px">
         <path d="M23 4v6h-6M1 20v-6h6"/>
@@ -1197,6 +1247,12 @@
     } catch { return ''; }
   }
 
+  // ── LINKIFY ─────────────────────────────────────────────
+  function linkify(texto) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return texto.replace(urlRegex, '<a href="$1" target="_blank" style="color:var(--dourado);text-decoration:underline;word-break:break-all;">$1</a>');
+  }
+
   // ── AVISOS ───────────────────────────────────────────────
   async function loadAvisos() {
     try {
@@ -1209,7 +1265,7 @@
         : rows.map(r => {
           const tempo = r.data ? tempoRelativo(r.data) : '';
           return `<div class="aviso-item">
-            <span class="aviso-texto">📌 ${r.aviso}</span>
+            <span class="aviso-texto">📌 ${linkify(r.aviso)}</span>
             ${tempo ? `<span class="aviso-tempo">${tempo}</span>` : ''}
           </div>`;
         }).join('');
