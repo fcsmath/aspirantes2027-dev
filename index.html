@@ -286,7 +286,6 @@
     display: inline-block;
     white-space: nowrap;
     transition: background 0.2s, color 0.2s;
-    border: 0.5px solid var(--dourado);
   }
 
   .btn-ver-quadro:hover { background: var(--dourado); color: var(--verde); }
@@ -492,6 +491,7 @@
   .aniversariante-item.hoje .aniv-nome { color: var(--dourado); font-weight: 500; }
   .aniversariante-item.proximo { border-color: rgba(201,168,76,0.15); opacity: 0.6; }
   .aniversariante-item.proximo .aniv-dia { color: rgba(245,240,232,0.4); }
+
   .aniv-mes-tag {
     font-size: 9px;
     letter-spacing: 1.5px;
@@ -502,6 +502,7 @@
     padding: 2px 6px;
     margin-left: 4px;
   }
+
   .aniversariantes-divisor {
     width: 100%;
     font-size: 9px;
@@ -636,40 +637,6 @@
     min-height: 16px;
   }
 
-  /* ── CALENDÁRIO ── */
-  .calendario-card {
-    background: rgba(250,250,248,0.04);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    border-radius: 12px;
-    padding: 1.1rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .calendario-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    text-transform: uppercase;
-    margin-bottom: 0.9rem;
-  }
-
-  .calendario-iframe-wrap {
-    position: relative;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    background: rgba(0,0,0,0.2);
-  }
-
-  .calendario-iframe-wrap iframe {
-    width: 100%;
-    height: 300px;
-    border: none;
-    border-radius: 8px;
-    filter: invert(0.9) hue-rotate(170deg) brightness(0.85);
-  }
-
   /* ── LINKS RÁPIDOS ── */
   .links-card {
     background: rgba(250,250,248,0.04);
@@ -706,15 +673,8 @@
     transition: border-color 0.2s, background 0.2s;
   }
 
-  .link-item:hover {
-    border-color: rgba(201,168,76,0.4);
-    background: rgba(201,168,76,0.1);
-  }
-
-  .link-icon {
-    font-size: 16px;
-    flex-shrink: 0;
-  }
+  .link-item:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.1); }
+  .link-icon { font-size: 16px; flex-shrink: 0; }
 
   .link-nome {
     font-size: 12px;
@@ -760,6 +720,25 @@
   }
 
   .tab-btn.active .tab-count { background: rgba(201,168,76,0.3); }
+
+  /* ── BADGE NOVO NA ABA ── */
+  .tab-new-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(126,200,154,0.2);
+    border: 0.5px solid rgba(126,200,154,0.5);
+    color: #7ec89a;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 1px 5px;
+    border-radius: 8px;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
@@ -1045,14 +1024,6 @@
     </div>
   </div>
 
-  <!-- CALENDÁRIO -->
-  <div class="calendario-card">
-    <div class="calendario-titulo">📅 Calendário da Turma</div>
-    <div class="calendario-iframe-wrap">
-      <iframe src="https://calendar.google.com/calendar/embed?src=e9a0e45bf203554dc983aa1497da74710045824473fdb302b4094d022b22411e%40group.calendar.google.com&ctz=America%2FSao_Paulo&hl=pt_BR&mode=AGENDA&bgcolor=%230e1f15&color=%23c9a84c" scrolling="no"></iframe>
-    </div>
-  </div>
-
   <!-- LINKS RÁPIDOS -->
   <div class="links-card">
     <div class="links-titulo">🔗 Links Rápidos</div>
@@ -1098,7 +1069,7 @@
   </div>
 
   <div class="portal-footer">
-    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026 &nbsp;·&nbsp; v0.3</span>
+    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026 &nbsp;·&nbsp; v0.4-dev</span>
     <button class="btn-refresh" id="btn-refresh" onclick="recarregarTudo()">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px">
         <path d="M23 4v6h-6M1 20v-6h6"/>
@@ -1124,6 +1095,8 @@
     { id: 'fisica',       label: 'Física 3'               },
     { id: 'ensino',       label: 'Téc. Prática de Ensino' },
     { id: 'estruturais',  label: 'Sistemas Estruturais'   },
+    { id: 'incendio2',    label: 'Incêndio II'            },
+    { id: 'comunicacao',  label: 'Comunicação e Oratória' },
   ];
 
   const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
@@ -1229,25 +1202,24 @@
     }
   }
 
-  // ── TEMPO RELATIVO ──────────────────────────────────────
+  // ── TEMPO RELATIVO ───────────────────────────────────────
   function tempoRelativo(dataStr) {
     try {
-      // formato esperado: DD/MM/AAAA HH:MM
       const partes = dataStr.trim().split(' ');
       const [dia, mes, ano] = partes[0].split('/');
       const [hora, min] = (partes[1] || '00:00').split(':');
       const data = new Date(ano, mes - 1, dia, hora, min);
       const diff = Math.floor((new Date() - data) / 1000);
-      if (diff < 60)           return 'agora mesmo';
-      if (diff < 3600)         return `há ${Math.floor(diff/60)} min`;
-      if (diff < 86400)        return `há ${Math.floor(diff/3600)}h`;
-      if (diff < 172800)       return 'ontem';
-      if (diff < 604800)       return `há ${Math.floor(diff/86400)} dias`;
+      if (diff < 60)     return 'agora mesmo';
+      if (diff < 3600)   return `há ${Math.floor(diff/60)} min`;
+      if (diff < 86400)  return `há ${Math.floor(diff/3600)}h`;
+      if (diff < 172800) return 'ontem';
+      if (diff < 604800) return `há ${Math.floor(diff/86400)} dias`;
       return partes[0];
     } catch { return ''; }
   }
 
-  // ── LINKIFY ─────────────────────────────────────────────
+  // ── LINKIFY ──────────────────────────────────────────────
   function linkify(texto) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return texto.replace(urlRegex, '<a href="$1" target="_blank" style="color:var(--dourado);text-decoration:underline;word-break:break-all;">$1</a>');
@@ -1298,7 +1270,6 @@
         : [];
 
       const lista = document.getElementById('aniversariantes-lista');
-
       let html = '';
 
       if (doMes.length === 0 && doProxMes.length === 0) {
@@ -1335,7 +1306,7 @@
     }
   }
 
-  // ── BADGE NOVO ──────────────────────────────────────────
+  // ── BADGE NOVO (arquivo) ─────────────────────────────────
   function isNovo(dataStr) {
     if (!dataStr) return false;
     try {
@@ -1343,8 +1314,7 @@
       const [dia, mes, ano] = partes[0].split('/');
       const [hora, min] = (partes[1] || '00:00').split(':');
       const data = new Date(ano, mes - 1, dia, hora, min);
-      const diffDias = (new Date() - data) / 86400000;
-      return diffDias <= 3;
+      return (new Date() - data) / 86400000 <= 3;
     } catch { return false; }
   }
 
@@ -1380,10 +1350,14 @@
 
     TABS_CONFIG.forEach(tab => {
       const items = groups[tab.id] || [];
+
+      // Badge "novo" na aba: acende se qualquer item foi adicionado nos últimos 3 dias
+      const temNovo = items.some(item => isNovo(item.data));
+
       const btn = document.createElement('button');
       btn.className = 'tab-btn' + (firstActive ? ' active' : '');
       btn.setAttribute('data-tab', tab.id);
-      btn.innerHTML = `${tab.label}<span class="tab-count">${items.length}</span>`;
+      btn.innerHTML = `${tab.label}<span class="tab-count">${items.length}</span>${temNovo ? '<span class="tab-new-dot">novo</span>' : ''}`;
       btn.onclick = (e) => openTab(e, tab.id);
       nav.appendChild(btn);
 
@@ -1451,7 +1425,7 @@
     btn.classList.remove('spinning');
   }
 
-  // ── LOGIN ─────────────────────────────────────────────────
+  // ── LOGIN ────────────────────────────────────────────────
   function checkPassword() {
     var input = document.getElementById('pw-input').value;
     if (input === 'dev') {
