@@ -2,880 +2,362 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a120e">
 <title>Aspirantes 2027 — CFO Paraíba</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="logo-320.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --dourado: #c9a84c;
-    --dourado-claro: #e8c87a;
-    --creme: #f5f0e8;
-    --verde: #1a3a2a;
+    --bg:        #0a120e;
+    --bg-2:      #0e1913;
+    --surface:   #111d16;
+    --surface-2: #16251c;
+    --line:      rgba(201,168,76,0.16);
+    --line-2:    rgba(201,168,76,0.32);
+    --gold:      #c9a84c;
+    --gold-2:    #e8c87a;
+    --cream:     #f5f0e8;
+    --text:      rgba(245,240,232,0.88);
+    --muted:     rgba(245,240,232,0.56);
+    --faint:     rgba(245,240,232,0.32);
+    --ok:        #7ec89a;
+    --err:       #e87070;
+    --radius:    14px;
+    --shadow:    0 1px 0 rgba(255,255,255,0.03) inset, 0 10px 30px -18px rgba(0,0,0,0.8);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
+  html { -webkit-text-size-adjust: 100%; }
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: url('wallpaper.png') center center / cover no-repeat fixed;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+    font-size: 15px;
+    line-height: 1.5;
     overflow-x: hidden;
   }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
+  input, textarea, select { font: inherit; color: inherit; }
+  svg { display: block; }
+  .num { font-variant-numeric: tabular-nums; }
+  [hidden] { display: none !important; }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 20, 14, 0.35);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── TELA DE SENHA ── */
+  /* ═════════════ LOGIN ═════════════ */
   #gate {
-    position: relative;
-    z-index: 1;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1rem;
+    background:
+      linear-gradient(rgba(6,12,9,0.55), rgba(6,12,9,0.8)),
+      url('wallpaper.webp') center / cover no-repeat;
+  }
+  .gate-box { width: 100%; max-width: 380px; text-align: center; animation: subir .6s ease both; }
+  .gate-box img { width: 168px; height: 168px; margin: 0 auto 1.25rem; filter: drop-shadow(0 10px 40px rgba(201,168,76,0.25)); }
+  .gate-box h1 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 34px; letter-spacing: 6px; color: var(--cream); line-height: 1; }
+  .gate-box .lema { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: var(--gold); margin: 6px 0 2rem; }
+  .gate-form {
+    background: rgba(14,25,19,0.72);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    text-align: left;
+  }
+  .rotulo { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 8px; }
+  .campo {
     width: 100%;
-    max-width: 420px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .gate-emblem { text-align: center; margin-bottom: 2rem; }
-
-  .emblem-ring {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 220px; height: 220px;
-    margin-bottom: 1rem;
-  }
-
-  .emblem-ring img { width: 220px; height: 220px; object-fit: contain; }
-
-  .gate-emblem h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 4px;
-    color: var(--creme);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .gate-emblem p {
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--dourado);
-    font-weight: 300;
-  }
-
-  .gate-card {
-    background: rgba(250,250,248,0.06);
-    border: 0.5px solid rgba(201,168,76,0.25);
-    border-radius: 12px;
-    padding: 2rem;
-    backdrop-filter: blur(8px);
-  }
-
-  .gate-card label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--dourado);
-    margin-bottom: 10px;
-    font-weight: 500;
-  }
-
-  .pw-wrap { position: relative; margin-bottom: 14px; }
-
-  .pw-wrap input {
-    width: 100%;
-    background: rgba(255,255,255,0.06);
-    border: 0.5px solid rgba(201,168,76,0.4);
-    border-radius: 8px;
-    padding: 13px 16px;
-    font-size: 15px;
-    color: var(--creme);
-    letter-spacing: 3px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--line-2);
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-size: 16px;
+    color: var(--cream);
     outline: none;
-    font-family: 'DM Sans', sans-serif;
-    transition: border-color 0.2s;
+    transition: border-color .2s, background .2s;
   }
-
-  .pw-wrap input::placeholder { letter-spacing: 1px; color: rgba(245,240,232,0.3); font-size: 13px; }
-  .pw-wrap input:focus { border-color: var(--dourado); background: rgba(255,255,255,0.08); }
-
-  .btn-enter {
+  .campo:focus { border-color: var(--gold); background: rgba(255,255,255,0.06); }
+  .campo::placeholder { color: var(--faint); }
+  .btn-principal {
     width: 100%;
-    background: var(--dourado);
-    color: var(--verde);
-    border: none;
-    border-radius: 8px;
+    margin-top: 12px;
+    background: var(--gold);
+    color: #13261b;
+    border-radius: 10px;
     padding: 13px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.2s, transform 0.1s;
+    transition: background .2s, transform .1s;
   }
+  .btn-principal:hover { background: var(--gold-2); }
+  .btn-principal:active { transform: scale(0.985); }
+  .btn-principal:disabled { opacity: .6; cursor: wait; }
+  .msg-erro { color: var(--err); font-size: 13px; min-height: 20px; margin-top: 10px; text-align: center; }
 
-  .btn-enter:hover { background: var(--dourado-claro); }
-  .btn-enter:active { transform: scale(0.98); }
+  /* ═════════════ PORTAL ═════════════ */
+  #portal { min-height: 100vh; }
 
-  .err-msg {
-    font-size: 12px;
-    color: #e87070;
-    text-align: center;
-    margin-top: 10px;
-    min-height: 18px;
+  .topo {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(10,18,14,0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
   }
+  .topo-in { max-width: 1120px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
+  .topo img { width: 38px; height: 38px; }
+  .topo-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--cream); line-height: 1; }
+  .topo-sub { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .topo-acoes { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .chip-dev { font-size: 10px; letter-spacing: 1.5px; font-weight: 600; color: #13261b; background: var(--gold); padding: 3px 8px; border-radius: 6px; }
+  .btn-icone {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    transition: color .2s, border-color .2s;
+  }
+  .btn-icone:hover { color: var(--gold); border-color: var(--line-2); }
+  .btn-icone.girando svg { animation: girar .9s linear infinite; }
 
-  /* ── PORTAL ── */
-  #portal {
-    display: none;
+  main { max-width: 1120px; margin: 0 auto; padding: 24px 20px 48px; }
+
+  /* Hero / Aspirantômetro */
+  .hero {
     position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 780px;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  #portal.visible { display: block; }
-
-  .portal-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 0.5px solid rgba(201,168,76,0.2);
-  }
-
-  .portal-logo { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
-  .portal-logo img { width: 100%; height: 100%; object-fit: contain; }
-
-  .portal-header-text h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 3px;
-    color: var(--creme);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .portal-header-text p {
-    font-size: 12px;
-    color: var(--dourado);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 300;
-  }
-
-  .access-badge {
-    margin-left: auto;
-    background: rgba(61,122,82,0.3);
-    border: 0.5px solid rgba(61,122,82,0.6);
-    color: #7ec89a;
-    font-size: 11px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-weight: 500;
-    white-space: nowrap;
-  }
-
-  /* ── ASPIRANTÔMETRO ── */
-  .aspirantometro {
-    background: rgba(201,168,76,0.06);
-    border: 0.5px solid rgba(201,168,76,0.25);
-    border-radius: 12px;
-    padding: 1.1rem 1.5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .aspirantometro-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    text-transform: uppercase;
-    margin-bottom: 3px;
-  }
-
-  .aspirantometro-date { font-size: 11px; color: rgba(245,240,232,0.3); letter-spacing: 0.5px; }
-  .countdown-blocks { display: flex; gap: 8px; margin-left: auto; }
-
-  .countdown-block {
-    text-align: center;
-    background: rgba(201,168,76,0.08);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    border-radius: 8px;
-    padding: 8px 12px;
-    min-width: 52px;
-  }
-
-  .countdown-block .num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    color: var(--dourado);
-    line-height: 1;
-    display: block;
-    letter-spacing: 2px;
-  }
-
-  .countdown-block .lbl {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: rgba(245,240,232,0.3);
-    display: block;
-    margin-top: 3px;
-  }
-
-  /* ── QUADRO DE TRABALHO ── */
-  .quadro-card {
-    background: rgba(250,250,248,0.04);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    border-radius: 12px;
-    padding: 1.1rem 1.5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .quadro-info { flex: 1; }
-
-  .quadro-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    text-transform: uppercase;
-    margin-bottom: 3px;
-  }
-
-  .quadro-nome { font-size: 12px; color: rgba(245,240,232,0.45); letter-spacing: 0.5px; }
-
-  .btn-ver-quadro {
-    background: transparent;
-    border: 0.5px solid var(--dourado);
-    color: var(--dourado);
-    border-radius: 7px;
-    padding: 8px 18px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    text-decoration: none;
-    display: inline-block;
-    white-space: nowrap;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .btn-ver-quadro:hover { background: var(--dourado); color: var(--verde); }
-
-  /* ── MODAL QUADRO ── */
-  .modal-quadro-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(5,12,8,0.85);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    backdrop-filter: blur(6px);
-  }
-
-  .modal-quadro-overlay.open { display: flex; }
-
-  .modal-quadro-box {
-    background: #0e1f15;
-    border: 0.5px solid rgba(201,168,76,0.3);
-    border-radius: 14px;
-    padding: 1.25rem;
-    width: 100%;
-    max-width: 720px;
-    animation: fadeUp 0.25s ease both;
-  }
-
-  .modal-quadro-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-
-  .modal-quadro-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-  }
-
-  .btn-fechar-quadro {
-    background: transparent;
-    border: 0.5px solid rgba(245,240,232,0.2);
-    color: rgba(245,240,232,0.5);
-    border-radius: 6px;
-    padding: 5px 12px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .btn-fechar-quadro:hover { border-color: rgba(245,240,232,0.4); color: rgba(245,240,232,0.8); }
-
-  .quadro-iframe-wrap {
-    position: relative;
-    width: 100%;
-    padding-bottom: 75%;
-    border-radius: 8px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 28px 24px;
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(201,168,76,0.12), transparent 55%),
+      linear-gradient(180deg, var(--surface-2), var(--surface));
     overflow: hidden;
-    background: rgba(0,0,0,0.3);
-  }
-
-  .quadro-iframe-wrap iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 8px;
-  }
-
-  /* ── MURAL DE AVISOS ── */
-  .mural-card {
-    background: rgba(250,250,248,0.04);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    border-radius: 12px;
-    padding: 1.1rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .mural-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.9rem;
-  }
-
-  .mural-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    text-transform: uppercase;
-  }
-
-  .btn-novo-aviso {
-    background: transparent;
-    border: 0.5px solid rgba(201,168,76,0.4);
-    color: rgba(201,168,76,0.7);
-    border-radius: 6px;
-    padding: 5px 12px;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .btn-novo-aviso:hover { border-color: var(--dourado); color: var(--dourado); }
-
-  .avisos-lista { display: flex; flex-direction: column; gap: 7px; }
-
-  .aviso-item {
-    background: rgba(201,168,76,0.05);
-    border-left: 2px solid rgba(201,168,76,0.4);
-    border-radius: 0 6px 6px 0;
-    padding: 8px 12px;
-    font-size: 13px;
-    color: rgba(245,240,232,0.8);
-    line-height: 1.5;
-    animation: fadeUp 0.3s ease both;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .aviso-texto { flex: 1; }
-
-  .aviso-tempo {
-    font-size: 10px;
-    color: rgba(245,240,232,0.25);
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-
-  .avisos-vazio {
-    font-size: 12px;
-    color: rgba(245,240,232,0.25);
-    letter-spacing: 0.5px;
-    text-align: center;
-    padding: 8px 0;
-  }
-
-  /* ── ANIVERSARIANTES ── */
-  .aniversariantes-card {
-    background: rgba(250,250,248,0.04);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    border-radius: 12px;
-    padding: 1.1rem 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .aniversariantes-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.9rem;
-  }
-
-  .aniversariantes-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    text-transform: uppercase;
-  }
-
-  .aniversariantes-mes {
-    font-size: 11px;
-    color: rgba(245,240,232,0.3);
-    letter-spacing: 0.5px;
-    text-transform: capitalize;
-  }
-
-  .aniversariantes-lista { display: flex; flex-wrap: wrap; gap: 8px; }
-
-  .aniversariante-item {
-    background: rgba(201,168,76,0.07);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    border-radius: 8px;
-    padding: 7px 14px;
-    font-size: 13px;
-    color: rgba(245,240,232,0.8);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    animation: fadeUp 0.3s ease both;
-  }
-
-  .aniversariante-item.hoje { border-color: var(--dourado); background: rgba(201,168,76,0.15); }
-  .aniversariante-item.hoje .aniv-nome { color: var(--dourado); font-weight: 500; }
-  .aniversariante-item.proximo { border-color: rgba(201,168,76,0.15); opacity: 0.6; }
-  .aniversariante-item.proximo .aniv-dia { color: rgba(245,240,232,0.4); }
-
-  .aniv-mes-tag {
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: rgba(245,240,232,0.25);
-    background: rgba(255,255,255,0.05);
-    border-radius: 4px;
-    padding: 2px 6px;
-    margin-left: 4px;
-  }
-
-  .aniversariantes-divisor {
-    width: 100%;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(245,240,232,0.2);
-    padding: 4px 0 2px;
-  }
-
-  .aniv-dia {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    color: var(--dourado);
-    letter-spacing: 1px;
-    min-width: 24px;
-    text-align: center;
-  }
-
-  .aniversariantes-vazio {
-    font-size: 12px;
-    color: rgba(245,240,232,0.25);
-    letter-spacing: 0.5px;
-    text-align: center;
-    padding: 8px 0;
-  }
-
-  /* ── MODAL AVISOS ── */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(5,12,8,0.75);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    backdrop-filter: blur(4px);
-  }
-
-  .modal-overlay.open { display: flex; }
-
-  .modal-box {
-    background: #0e1f15;
-    border: 0.5px solid rgba(201,168,76,0.3);
-    border-radius: 14px;
-    padding: 1.75rem;
-    width: 100%;
-    max-width: 420px;
-    animation: fadeUp 0.25s ease both;
-  }
-
-  .modal-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    margin-bottom: 1.25rem;
-  }
-
-  .modal-label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(201,168,76,0.6);
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-
-  .modal-input {
-    width: 100%;
-    background: rgba(255,255,255,0.05);
-    border: 0.5px solid rgba(201,168,76,0.3);
-    border-radius: 8px;
-    padding: 11px 14px;
-    font-size: 14px;
-    color: var(--creme);
-    outline: none;
-    font-family: 'DM Sans', sans-serif;
-    transition: border-color 0.2s;
-    margin-bottom: 14px;
-    letter-spacing: 2px;
-  }
-
-  .modal-input:focus { border-color: var(--dourado); }
-  .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
-
-  .btn-modal-cancel {
-    flex: 1;
-    background: transparent;
-    border: 0.5px solid rgba(245,240,232,0.15);
-    color: rgba(245,240,232,0.4);
-    border-radius: 8px;
-    padding: 11px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
-  }
-
-  .btn-modal-cancel:hover { border-color: rgba(245,240,232,0.3); color: rgba(245,240,232,0.6); }
-
-  .btn-modal-confirm {
-    flex: 2;
-    background: var(--dourado);
-    color: var(--verde);
-    border: none;
-    border-radius: 8px;
-    padding: 11px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.2s;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-  }
-
-  .btn-modal-confirm:hover { background: var(--dourado-claro); }
-
-  .modal-err {
-    font-size: 11px;
-    color: #e87070;
-    margin-top: -8px;
-    margin-bottom: 10px;
-    min-height: 16px;
-  }
-
-  /* ── LINKS RÁPIDOS ── */
-  .links-card {
-    background: rgba(250,250,248,0.04);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    border-radius: 12px;
-    padding: 1.1rem 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .links-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    letter-spacing: 3px;
-    color: var(--dourado);
-    text-transform: uppercase;
-    margin-bottom: 0.9rem;
-  }
-
-  .links-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 8px;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: end;
+    animation: subir .5s ease both;
   }
+  .hero::after {
+    content: ''; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px;
+    background: url('logo-320.webp') center / contain no-repeat;
+    opacity: 0.06; pointer-events: none;
+  }
+  .hero-rotulo { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+  .hero-dias { display: flex; align-items: baseline; gap: 12px; margin-top: 4px; }
+  .hero-dias .n { font-family: 'Bebas Neue', sans-serif; font-size: clamp(76px, 14vw, 128px); line-height: .85; color: var(--cream); letter-spacing: 2px; }
+  .hero-dias .u { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--gold); letter-spacing: 3px; }
+  .hero-data { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .hero-relogio { display: flex; gap: 8px; position: relative; z-index: 1; }
+  .hero-relogio div { text-align: center; min-width: 58px; padding: 10px 8px; border: 1px solid var(--line); border-radius: 12px; background: rgba(0,0,0,0.18); }
+  .hero-relogio b { display: block; font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 30px; line-height: 1; color: var(--gold); letter-spacing: 1px; }
+  .hero-relogio span { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); }
 
-  .link-item {
-    background: rgba(201,168,76,0.06);
-    border: 0.5px solid rgba(201,168,76,0.15);
+  /* Grade */
+  .grade { display: grid; grid-template-columns: 1.45fr 1fr; gap: 16px; margin-top: 16px; }
+  .coluna { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px 20px;
+    min-width: 0;
+    animation: subir .5s ease both;
+  }
+  .card-cab { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .card-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 3px; color: var(--gold); line-height: 1; }
+  .card-meta { font-size: 12px; color: var(--faint); }
+  .card-cab .direita { margin-left: auto; }
+  .btn-sec {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--line-2);
+    color: var(--gold);
     border-radius: 8px;
-    padding: 10px 14px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: border-color 0.2s, background 0.2s;
-  }
-
-  .link-item:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.1); }
-  .link-icon { font-size: 16px; flex-shrink: 0; }
-
-  .link-nome {
-    font-size: 12px;
-    font-weight: 500;
-    color: rgba(245,240,232,0.75);
-    line-height: 1.3;
-  }
-
-  /* ── ABAS ── */
-  .tabs-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
-
-  .tab-btn {
-    background: rgba(255,255,255,0.05);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    color: rgba(245,240,232,0.6);
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
     white-space: nowrap;
+    transition: background .2s, color .2s;
+  }
+  .btn-sec:hover { background: var(--gold); color: #13261b; }
+  .vazio { color: var(--faint); font-size: 13px; padding: 6px 0; }
+
+  /* Avisos */
+  .avisos { display: flex; flex-direction: column; gap: 10px; }
+  .aviso {
+    display: grid; grid-template-columns: 1fr auto; gap: 4px 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(201,168,76,0.05);
+    border-left: 2px solid var(--gold);
+  }
+  .aviso-texto { color: var(--text); font-size: 14px; white-space: pre-line; overflow-wrap: anywhere; }
+  .aviso-texto a { color: var(--gold-2); }
+  .aviso-meta { grid-column: 1; font-size: 11px; color: var(--faint); }
+  .aviso-x { grid-row: 1 / span 2; grid-column: 2; align-self: start; color: var(--faint); padding: 2px; border-radius: 6px; }
+  .aviso-x:hover { color: var(--err); }
+
+  /* Quadro */
+  .quadro-thumb {
+    display: block; width: 100%; aspect-ratio: 4 / 3;
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line);
+    background: rgba(0,0,0,0.25);
     position: relative;
   }
-
-  .tab-btn:hover { border-color: rgba(201,168,76,0.5); color: var(--creme); }
-  .tab-btn.active { background: rgba(201,168,76,0.15); border-color: var(--dourado); color: var(--dourado); }
-
-  .tab-count {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(201,168,76,0.2);
-    color: var(--dourado);
-    border-radius: 10px;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 6px;
-    margin-left: 6px;
-    min-width: 18px;
+  .quadro-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .4s; }
+  .quadro-thumb:hover img { transform: scale(1.02); }
+  .quadro-thumb .lupa {
+    position: absolute; right: 10px; bottom: 10px;
+    background: rgba(10,18,14,0.8); border: 1px solid var(--line-2);
+    color: var(--gold); border-radius: 8px; padding: 5px 10px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
   }
+  .quadro-nome { font-size: 13px; color: var(--muted); margin-top: 10px; }
 
-  .tab-btn.active .tab-count { background: rgba(201,168,76,0.3); }
-
-  /* ── BADGE NOVO NA ABA ── */
-  .tab-new-dot {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(126,200,154,0.2);
-    border: 0.5px solid rgba(126,200,154,0.5);
-    color: #7ec89a;
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 1px 5px;
-    border-radius: 8px;
-    margin-left: 5px;
-    vertical-align: middle;
+  /* Aniversariantes */
+  .aniv { display: flex; flex-direction: column; gap: 6px; }
+  .aniv-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 10px; }
+  .aniv-item .d {
+    width: 42px; text-align: center; flex-shrink: 0;
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; line-height: 1; color: var(--gold);
   }
+  .aniv-item .d small { display: block; font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin-top: 2px; }
+  .aniv-item .nome { font-size: 14px; }
+  .aniv-item.hoje { background: rgba(201,168,76,0.14); border: 1px solid var(--line-2); }
+  .aniv-item.hoje .nome { color: var(--gold-2); font-weight: 600; }
+  .aniv-item.passou { opacity: .45; }
 
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: rgba(201,168,76,0.5);
-    font-weight: 500;
-    margin-bottom: 12px;
+  /* Materiais */
+  .secao { margin-top: 32px; }
+  .secao-cab { display: flex; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .secao-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; color: var(--cream); line-height: 1; }
+  .secao-sub { font-size: 13px; color: var(--faint); margin-top: 4px; }
+  .busca { margin-left: auto; position: relative; width: min(320px, 100%); }
+  .busca svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--faint); }
+  .busca input {
+    width: 100%; padding: 10px 12px 10px 36px; border-radius: 10px;
+    background: var(--surface); border: 1px solid var(--line); color: var(--cream); outline: none; font-size: 14px;
   }
+  .busca input:focus { border-color: var(--gold); }
 
-  .files-list { display: flex; flex-direction: column; gap: 8px; }
-
-  .file-card {
-    background: rgba(250,250,248,0.05);
-    border: 0.5px solid rgba(201,168,76,0.15);
-    border-radius: 10px;
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transition: border-color 0.2s, background 0.2s;
+  .abas {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px;
+    scrollbar-width: thin; scrollbar-color: var(--line-2) transparent;
+    -webkit-overflow-scrolling: touch;
   }
-
-  .file-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(250,250,248,0.08); }
-
-  .file-type-badge {
-    width: 38px; height: 38px;
-    border-radius: 8px;
-    background: rgba(201,168,76,0.1);
-    border: 0.5px solid rgba(201,168,76,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
+  .aba {
     flex-shrink: 0;
-  }
-
-  .file-info { flex: 1; }
-  .file-info .file-name { font-size: 14px; font-weight: 500; color: var(--creme); display: block; margin-bottom: 2px; }
-  .file-info .file-meta { font-size: 11px; color: rgba(245,240,232,0.35); }
-
-  .badge-novo {
-    display: inline-block;
-    background: rgba(126,200,154,0.15);
-    border: 0.5px solid rgba(126,200,154,0.4);
-    color: #7ec89a;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 10px;
-    margin-left: 8px;
-    vertical-align: middle;
-  }
-
-  .btn-download {
-    background: transparent;
-    border: 0.5px solid var(--dourado);
-    color: var(--dourado);
-    border-radius: 7px;
-    padding: 7px 16px;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    text-decoration: none;
-    display: inline-block;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 13px; font-weight: 500;
     white-space: nowrap;
-    transition: background 0.2s, color 0.2s;
+    transition: all .2s;
   }
+  .aba:hover { color: var(--cream); border-color: var(--line-2); }
+  .aba.ativa { background: rgba(201,168,76,0.16); border-color: var(--gold); color: var(--gold-2); }
+  .aba .qtd { font-size: 11px; font-weight: 600; color: var(--gold); background: rgba(201,168,76,0.14); border-radius: 999px; padding: 0 7px; }
+  .aba .ponto { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px rgba(126,200,154,0.2); }
 
-  .btn-download:hover { background: var(--dourado); color: var(--verde); }
-
-  .loading-state { text-align: center; padding: 3rem 1rem; color: rgba(245,240,232,0.4); }
-
-  .loading-spinner {
-    width: 28px; height: 28px;
-    border: 2px solid rgba(201,168,76,0.2);
-    border-top-color: var(--dourado);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
+  .lista { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .grupo-titulo {
+    padding: 12px 18px 8px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; background: rgba(201,168,76,0.04); border-top: 1px solid var(--line);
   }
-
-  .loading-state p { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
-  .error-state { text-align: center; padding: 2rem 1rem; color: #e87070; font-size: 13px; }
-  .empty-state { text-align: center; padding: 2rem 1rem; color: rgba(245,240,232,0.3); font-size: 13px; }
-
-  .portal-footer {
-    margin-top: 2rem;
-    padding-top: 1.25rem;
-    border-top: 0.5px solid rgba(201,168,76,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
+  .grupo-titulo:first-child { border-top: 0; }
+  .item { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border-top: 1px solid rgba(201,168,76,0.08); }
+  .grupo-titulo + .item, .lista > .item:first-child { border-top: 0; }
+  .item:hover { background: rgba(255,255,255,0.02); }
+  .tipo {
+    width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px;
+    display: grid; place-items: center;
+    font-size: 9.5px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+    border: 1px solid var(--line-2); color: var(--gold); background: rgba(201,168,76,0.07);
+    text-align: center; line-height: 1.1; padding: 2px;
   }
+  .item-info { flex: 1; min-width: 0; }
+  .item-nome { color: var(--cream); font-size: 14.5px; font-weight: 500; overflow-wrap: anywhere; }
+  .item-meta { font-size: 12px; color: var(--faint); margin-top: 2px; }
+  .item-meta .disc { color: var(--gold); }
+  .novo { display: inline-block; vertical-align: 2px; margin-left: 8px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ok); border: 1px solid rgba(126,200,154,0.45); background: rgba(126,200,154,0.12); padding: 1px 7px; border-radius: 999px; }
+  .item-acoes { display: flex; gap: 6px; flex-shrink: 0; }
 
-  .footer-text { font-size: 11px; color: rgba(245,240,232,0.25); letter-spacing: 1px; text-transform: uppercase; }
-
-  .btn-refresh {
-    background: transparent;
-    border: 0.5px solid rgba(201,168,76,0.3);
-    color: rgba(201,168,76,0.5);
-    border-radius: 6px;
-    padding: 5px 12px;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.2s;
+  /* Links */
+  .links { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+  .link {
+    display: flex; align-items: center; gap: 10px; text-decoration: none;
+    padding: 12px 14px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--line);
+    font-size: 13.5px; font-weight: 500; color: var(--text);
+    transition: border-color .2s, transform .2s;
   }
+  .link:hover { border-color: var(--line-2); transform: translateY(-1px); }
+  .link svg { color: var(--gold); flex-shrink: 0; }
 
-  .btn-refresh:hover { border-color: var(--dourado); color: var(--dourado); }
-  .btn-refresh.spinning svg { animation: spin 0.8s linear infinite; }
+  footer { max-width: 1120px; margin: 0 auto; padding: 20px 20px 40px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
 
-  @keyframes spin { to { transform: rotate(360deg); } }
+  /* Carregando */
+  .esqueleto { border-radius: 10px; background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.07), rgba(255,255,255,0.03)); background-size: 200% 100%; animation: brilho 1.4s infinite; }
+  .faixa-erro { margin-top: 16px; padding: 12px 16px; border: 1px solid rgba(232,112,112,0.35); background: rgba(232,112,112,0.08); color: #f0a0a0; border-radius: 12px; font-size: 13px; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* Modais */
+  .modal { position: fixed; inset: 0; z-index: 50; background: rgba(4,9,6,0.82); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: grid; place-items: center; padding: 16px; }
+  .modal-caixa { width: 100%; max-width: 440px; background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 16px; padding: 22px; animation: subir .25s ease both; }
+  .modal-caixa h3 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 20px; letter-spacing: 3px; color: var(--gold); margin-bottom: 16px; }
+  .modal-caixa textarea.campo { min-height: 120px; resize: vertical; font-size: 15px; line-height: 1.45; }
+  .modal-linha { margin-top: 14px; }
+  .modal-botoes { display: flex; gap: 8px; margin-top: 16px; }
+  .modal-botoes .btn-principal { margin-top: 0; flex: 2; }
+  .btn-cancelar { flex: 1; border: 1px solid rgba(245,240,232,0.15); border-radius: 10px; color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .validades { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .validades button { border: 1px solid var(--line); border-radius: 8px; padding: 8px 4px; font-size: 12px; color: var(--muted); }
+  .validades button.sel { border-color: var(--gold); color: var(--gold-2); background: rgba(201,168,76,0.12); }
+
+  .lightbox { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,0.92); display: flex; flex-direction: column; }
+  .lightbox-barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; color: var(--muted); font-size: 13px; }
+  .lightbox-img { flex: 1; overflow: auto; display: grid; place-items: center; padding: 0 12px 16px; }
+  .lightbox-img img { max-width: 100%; height: auto; border-radius: 8px; }
+
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 70; background: var(--surface-2); border: 1px solid var(--line-2); color: var(--cream); padding: 10px 16px; border-radius: 10px; font-size: 13px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: subir .25s ease both; }
+
+  @keyframes subir { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @keyframes girar { to { transform: rotate(360deg); } }
+  @keyframes brilho { to { background-position: -200% 0; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+  @media (max-width: 860px) {
+    .grade { grid-template-columns: 1fr; }
   }
-
   @media (max-width: 560px) {
-    .access-badge { display: none; }
-    .btn-download { padding: 6px 10px; font-size: 10px; }
-    .tab-btn { font-size: 11px; padding: 6px 12px; }
-    .countdown-blocks { margin-left: 0; }
-    .countdown-block .num { font-size: 22px; }
-    .countdown-block { min-width: 44px; padding: 6px 8px; }
-    .quadro-iframe-wrap { padding-bottom: 120%; }
+    main { padding: 16px 14px 40px; }
+    .topo-in { padding: 10px 14px; }
+    .topo-sub { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 22px 20px 20px; gap: 16px; }
+    .hero-relogio div { flex: 1; min-width: 0; }
+    .card { padding: 16px; }
+    .item { padding: 12px 14px; gap: 12px; }
+    .tipo { width: 40px; height: 40px; }
+    .item-acoes .txt { display: none; }
+    .item-acoes .btn-sec { padding: 8px; }
+    .busca { width: 100%; margin-left: 0; }
+    .links { grid-template-columns: 1fr 1fr; }
+    footer { padding: 16px 14px 32px; }
   }
 </style>
 <!-- Google Analytics -->
@@ -889,574 +371,638 @@
 </head>
 <body>
 
-<!-- TELA DE SENHA -->
-<div id="gate">
-  <div class="gate-emblem">
-    <div class="emblem-ring">
-      <img src="logo.png" alt="Aspirantes 2027" />
-    </div>
+<!-- ═════════════ LOGIN ═════════════ -->
+<section id="gate">
+  <div class="gate-box">
+    <img src="logo-320.webp" alt="Brasão Aspirantes 2027" width="168" height="168">
     <h1>Aspirantes 2027</h1>
-    <p>CFO · Paraíba · Acesso Restrito</p>
+    <p class="lema">Fortuna audaces sequitur</p>
+    <form class="gate-form" id="form-login" autocomplete="off">
+      <label class="rotulo" for="senha">Senha da turma</label>
+      <input class="campo" type="password" id="senha" placeholder="Digite a senha de acesso" autocomplete="current-password" required>
+      <button class="btn-principal" type="submit" id="btn-entrar">Entrar</button>
+      <div class="msg-erro" id="erro-login" role="alert"></div>
+    </form>
   </div>
-  <div class="gate-card">
-    <label>Senha da turma</label>
-    <div class="pw-wrap">
-      <input type="password" id="pw-input" placeholder="Digite a senha de acesso" autocomplete="off" />
+</section>
+
+<!-- ═════════════ PORTAL ═════════════ -->
+<div id="portal" hidden>
+  <header class="topo">
+    <div class="topo-in">
+      <img src="logo-320.webp" alt="" width="38" height="38">
+      <div>
+        <div class="topo-titulo">Aspirantes 2027</div>
+        <div class="topo-sub">CFO · Paraíba</div>
+      </div>
+      <div class="topo-acoes">
+        <span class="chip-dev" id="chip-dev" hidden>DEV</span>
+        <button class="btn-icone" id="btn-atualizar" title="Atualizar" aria-label="Atualizar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/></svg>
+        </button>
+        <button class="btn-icone" id="btn-sair" title="Sair" aria-label="Sair">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        </button>
+      </div>
     </div>
-    <button class="btn-enter" onclick="checkPassword()">Entrar</button>
-    <div class="err-msg" id="err-msg"></div>
+  </header>
+
+  <main>
+    <!-- Aspirantômetro -->
+    <section class="hero" aria-label="Aspirantômetro">
+      <div>
+        <div class="hero-rotulo">Aspirantômetro</div>
+        <div class="hero-dias"><span class="n num" id="cd-dias">—</span><span class="u">dias</span></div>
+        <div class="hero-data">para a formatura · 02 de julho de 2027</div>
+      </div>
+      <div class="hero-relogio" aria-hidden="true">
+        <div><b class="num" id="cd-horas">--</b><span>Horas</span></div>
+        <div><b class="num" id="cd-min">--</b><span>Min</span></div>
+        <div><b class="num" id="cd-seg">--</b><span>Seg</span></div>
+      </div>
+    </section>
+
+    <div id="faixa-erro" class="faixa-erro" hidden></div>
+
+    <div class="grade">
+      <div class="coluna">
+        <section class="card" aria-labelledby="t-avisos">
+          <div class="card-cab">
+            <h2 class="card-titulo" id="t-avisos">Mural de Avisos</h2>
+            <button class="btn-sec direita" id="btn-novo-aviso">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              Aviso
+            </button>
+          </div>
+          <div class="avisos" id="avisos">
+            <div class="esqueleto" style="height:56px"></div>
+            <div class="esqueleto" style="height:56px"></div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="t-aniv">
+          <div class="card-cab">
+            <h2 class="card-titulo" id="t-aniv">Aniversariantes</h2>
+            <span class="card-meta direita" id="aniv-mes"></span>
+          </div>
+          <div class="aniv" id="aniv"><div class="esqueleto" style="height:40px"></div></div>
+        </section>
+      </div>
+
+      <div class="coluna">
+        <section class="card" aria-labelledby="t-quadro">
+          <div class="card-cab">
+            <h2 class="card-titulo" id="t-quadro">Quadro de Trabalho</h2>
+            <span class="card-meta direita" id="quadro-data"></span>
+          </div>
+          <div id="quadro"><div class="esqueleto" style="aspect-ratio:4/3"></div></div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Materiais -->
+    <section class="secao" aria-labelledby="t-mat">
+      <div class="secao-cab">
+        <div>
+          <h2 class="secao-titulo" id="t-mat">Materiais</h2>
+          <div class="secao-sub" id="mat-sub">Carregando…</div>
+        </div>
+        <label class="busca">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="busca" placeholder="Buscar em todas as disciplinas" aria-label="Buscar materiais">
+        </label>
+      </div>
+      <nav class="abas" id="abas" aria-label="Disciplinas"></nav>
+      <div class="lista" id="lista">
+        <div style="padding:16px;display:grid;gap:10px">
+          <div class="esqueleto" style="height:44px"></div>
+          <div class="esqueleto" style="height:44px"></div>
+          <div class="esqueleto" style="height:44px"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Links rápidos -->
+    <section class="secao" aria-labelledby="t-links">
+      <div class="secao-cab"><h2 class="secao-titulo" id="t-links">Links Rápidos</h2></div>
+      <div class="links" id="links"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Cad Caldas · Aspirantes 2027 — CFO/PB · v1.0</span>
+    <span id="rodape-atualizado"></span>
+  </footer>
+</div>
+
+<!-- Modal: novo aviso -->
+<div class="modal" id="modal-aviso" hidden>
+  <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="t-modal-aviso">
+    <h3 id="t-modal-aviso">Novo Aviso</h3>
+    <div id="aviso-passo-senha">
+      <label class="rotulo" for="aviso-senha">Senha de moderação</label>
+      <input class="campo" type="password" id="aviso-senha" placeholder="Digite a senha">
+    </div>
+    <div id="aviso-passo-texto" hidden>
+      <label class="rotulo" for="aviso-texto">Texto do aviso</label>
+      <textarea class="campo" id="aviso-texto" maxlength="1000" placeholder="Escreva o aviso. Links viram clicáveis automaticamente."></textarea>
+      <div class="modal-linha">
+        <span class="rotulo">Fica no mural por</span>
+        <div class="validades" id="validades">
+          <button type="button" data-dias="3">3 dias</button>
+          <button type="button" data-dias="7" class="sel">7 dias</button>
+          <button type="button" data-dias="30">30 dias</button>
+          <button type="button" data-dias="0">Sem prazo</button>
+        </div>
+      </div>
+    </div>
+    <div class="msg-erro" id="aviso-erro"></div>
+    <div class="modal-botoes">
+      <button class="btn-cancelar" type="button" data-fechar>Cancelar</button>
+      <button class="btn-principal" type="button" id="aviso-ok">Continuar</button>
+    </div>
   </div>
 </div>
 
-<!-- MODAL QUADRO -->
-<div class="modal-quadro-overlay" id="modal-quadro">
-  <div class="modal-quadro-box">
-    <div class="modal-quadro-header">
-      <div class="modal-quadro-titulo">📋 Quadro de Trabalho</div>
-      <button class="btn-fechar-quadro" onclick="fecharQuadro()">✕ Fechar</button>
-    </div>
-    <div class="quadro-iframe-wrap">
-      <iframe id="quadro-iframe" src="" allowfullscreen></iframe>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL NOVO AVISO -->
-<div class="modal-overlay" id="modal-aviso">
-  <div class="modal-box">
-    <div id="modal-step-1">
-      <div class="modal-titulo">📣 Novo Aviso</div>
-      <label class="modal-label">Senha de moderação</label>
-      <input type="password" class="modal-input" id="modal-pw" placeholder="Digite a senha" autocomplete="off" />
-      <div class="modal-err" id="modal-pw-err"></div>
-      <div class="modal-btns">
-        <button class="btn-modal-cancel" onclick="fecharModal()">Cancelar</button>
-        <button class="btn-modal-confirm" onclick="verificarSenhaAviso()">Continuar</button>
-      </div>
-    </div>
-    <div id="modal-step-2" style="display:none;">
-      <div class="modal-titulo">📣 Novo Aviso</div>
-      <p style="font-size:13px;color:rgba(245,240,232,0.6);line-height:1.6;margin-bottom:1.25rem;">
-        A planilha de avisos vai abrir em uma nova aba.<br>
-        Adicione uma nova linha com o texto do aviso e coloque <strong style="color:var(--dourado)">sim</strong> na coluna <strong style="color:var(--dourado)">ativo</strong>.<br><br>
-        Depois volte aqui e clique em <strong style="color:var(--dourado)">Atualizar</strong> para ver o aviso no mural.
-      </p>
-      <div class="modal-btns">
-        <button class="btn-modal-cancel" onclick="fecharModal()">Fechar</button>
-        <a class="btn-modal-confirm"
-           href="https://docs.google.com/spreadsheets/d/1HevQE_BQXM6jUFXMlJcdu73LK8sDQ8VCD7aOCS9Gkr8/edit?gid=1646647707#gid=1646647707"
-           target="_blank"
-           onclick="fecharModal()">
-          Abrir Planilha
-        </a>
-      </div>
+<!-- Lightbox do quadro -->
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lightbox-barra">
+    <span id="lightbox-nome"></span>
+    <div style="display:flex;gap:8px">
+      <a class="btn-sec" id="lightbox-drive" target="_blank" rel="noopener">Abrir no Drive</a>
+      <button class="btn-icone" data-fechar aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
     </div>
   </div>
-</div>
-
-<!-- PORTAL -->
-<div id="portal">
-  <div class="portal-header">
-    <div class="portal-logo">
-      <img src="logo.png" alt="Aspirantes 2027" />
-    </div>
-    <div class="portal-header-text">
-      <h2>Aspirantes 2027</h2>
-      <p>Fortuna audaces sequitur</p>
-    </div>
-    <span class="access-badge">✓ Acesso autorizado</span>
-  </div>
-
-  <!-- ASPIRANTÔMETRO -->
-  <div class="aspirantometro">
-    <div class="aspirantometro-info">
-      <div class="aspirantometro-title">🎖️ Aspirantômetro</div>
-      <div class="aspirantometro-date">Formatura · 02 de julho de 2027</div>
-    </div>
-    <div class="countdown-blocks">
-      <div class="countdown-block">
-        <span class="num" id="cd-dias">--</span>
-        <span class="lbl">Dias</span>
-      </div>
-      <div class="countdown-block">
-        <span class="num" id="cd-horas">--</span>
-        <span class="lbl">Horas</span>
-      </div>
-      <div class="countdown-block">
-        <span class="num" id="cd-min">--</span>
-        <span class="lbl">Min</span>
-      </div>
-      <div class="countdown-block">
-        <span class="num" id="cd-seg">--</span>
-        <span class="lbl">Seg</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- QUADRO DE TRABALHO -->
-  <div class="quadro-card">
-    <div class="quadro-info">
-      <div class="quadro-titulo">📋 Quadro de Trabalho</div>
-      <div class="quadro-nome" id="quadro-nome">Carregando...</div>
-    </div>
-    <span id="quadro-btn-wrap"></span>
-  </div>
-
-  <!-- MURAL DE AVISOS -->
-  <div class="mural-card">
-    <div class="mural-header">
-      <div class="mural-titulo">📣 Mural de Avisos</div>
-      <button class="btn-novo-aviso" onclick="abrirModal()">+ Novo aviso</button>
-    </div>
-    <div class="avisos-lista" id="avisos-lista">
-      <div class="avisos-vazio">Carregando avisos...</div>
-    </div>
-  </div>
-
-  <!-- ANIVERSARIANTES -->
-  <div class="aniversariantes-card">
-    <div class="aniversariantes-header">
-      <div class="aniversariantes-titulo">🎂 Aniversariantes</div>
-      <div class="aniversariantes-mes" id="aniv-mes"></div>
-    </div>
-    <div class="aniversariantes-lista" id="aniversariantes-lista">
-      <div class="aniversariantes-vazio">Carregando...</div>
-    </div>
-  </div>
-
-  <!-- LINKS RÁPIDOS -->
-  <div class="links-card">
-    <div class="links-titulo">🔗 Links Rápidos</div>
-    <div class="links-grid">
-      <a class="link-item" href="https://bravo.bombeiros.pb.gov.br/bravoEscalas/acessoUsuario/" target="_blank">
-        <span class="link-icon">📅</span>
-        <span class="link-nome">Bravo Escalas</span>
-      </a>
-      <a class="link-item" href="https://bravo.bombeiros.pb.gov.br/bravoRH/boletins/" target="_blank">
-        <span class="link-icon">📋</span>
-        <span class="link-nome">Boletim Interno</span>
-      </a>
-      <a class="link-item" href="https://pbdoc.pb.gov.br/siga/public/app/login?cont=https%3A%2F%2Fpbdoc.pb.gov.br%2Fsiga%2Fapp%2Fprincipal" target="_blank">
-        <span class="link-icon">📄</span>
-        <span class="link-nome">PB Doc</span>
-      </a>
-      <a class="link-item" href="https://docs.google.com/spreadsheets/d/10qgkvLfy_DWidllpqe6Tf62dn2u1hb_QI3Dw7TSXwKY/edit?gid=0#gid=0" target="_blank">
-        <span class="link-icon">📊</span>
-        <span class="link-nome">Controle de Serviços</span>
-      </a>
-      <a class="link-item" href="https://ead.bombeiros.pb.gov.br/" target="_blank">
-        <span class="link-icon">🎓</span>
-        <span class="link-nome">Moodle</span>
-      </a>
-      <a class="link-item" href="https://bravo.bombeiros.pb.gov.br/portal/normas-tecnicas/" target="_blank">
-        <span class="link-icon">📖</span>
-        <span class="link-nome">Normas Técnicas</span>
-      </a>
-      <a class="link-item" href="https://ce.pm.pb.gov.br/sisge/?m=sp&c=login" target="_blank">
-        <span class="link-icon">📰</span>
-        <span class="link-nome">Sistema de Notas</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="tabs-nav" id="tabs-nav"></div>
-
-  <div id="tabs-content">
-    <div class="loading-state">
-      <div class="loading-spinner"></div>
-      <p>Carregando materiais...</p>
-    </div>
-  </div>
-
-  <div class="portal-footer">
-    <span class="footer-text">Atualizado por Cad Caldas &nbsp;·&nbsp; Aspirantes 2027 — CFO/PB &nbsp;·&nbsp; Mai 2026 &nbsp;·&nbsp; v0.4-dev</span>
-    <button class="btn-refresh" id="btn-refresh" onclick="recarregarTudo()">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px">
-        <path d="M23 4v6h-6M1 20v-6h6"/>
-        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-      </svg>
-      Atualizar
-    </button>
-  </div>
+  <div class="lightbox-img"><img id="lightbox-img" alt="Quadro de trabalho"></div>
 </div>
 
 <script>
-  // ── CONFIG ───────────────────────────────────────────────
-  const MATERIAIS_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=0&single=true&output=csv';
-  const AVISOS_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1646647707&single=true&output=csv';
-  const ANIVERSARIO_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=384779462&single=true&output=csv';
-  const QUADRO_CSV      = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQbkSJ6Nt_ebrFmRZzmu3wSmARzC0CmtBBYkL-83dERE_JtU-Mdl5KOCaGGHNeGSrn2USe_b_mE7dVF/pub?gid=1405606780&single=true&output=csv';
-  const SENHA_AVISO     = 'novidadenova';
+(function () {
+  'use strict';
 
-  const TABS_CONFIG = [
-    { id: 'fluidos',      label: 'Mecânica dos Fluidos'   },
-    { id: 'direito',      label: 'Direito Penal Militar'  },
-    { id: 'estatistica',  label: 'Estatística'            },
-    { id: 'fisica',       label: 'Física 3'               },
-    { id: 'ensino',       label: 'Téc. Prática de Ensino' },
-    { id: 'estruturais',  label: 'Sistemas Estruturais'   },
-    { id: 'incendio2',    label: 'Incêndio II'            },
-    { id: 'comunicacao',  label: 'Comunicação e Oratória' },
+  // ════════════════ CONFIGURAÇÃO ════════════════
+  // URL do Web App do Apps Script (Implantar → Gerenciar implantações)
+  const API = {
+    dev:  'COLE_AQUI_A_URL_DO_WEB_APP_DEV',
+    prod: 'COLE_AQUI_A_URL_DO_WEB_APP_PROD',
+  };
+  const AMBIENTE = /aspirantes2027-dev/.test(location.pathname) || !/github\.io$/.test(location.hostname) ? 'dev' : 'prod';
+  const FORMATURA = new Date('2027-07-02T10:00:00-03:00');
+  const DIAS_NOVO = 3;
+  const RECARREGAR_MIN = 5;
+
+  const LINKS = [
+    ['Bravo Escalas',        'https://bravo.bombeiros.pb.gov.br/bravoEscalas/acessoUsuario/', 'cal'],
+    ['Boletim Interno',      'https://bravo.bombeiros.pb.gov.br/bravoRH/boletins/', 'doc'],
+    ['PB Doc',               'https://pbdoc.pb.gov.br/siga/public/app/login?cont=https%3A%2F%2Fpbdoc.pb.gov.br%2Fsiga%2Fapp%2Fprincipal', 'doc'],
+    ['Controle de Serviços', 'https://docs.google.com/spreadsheets/d/10qgkvLfy_DWidllpqe6Tf62dn2u1hb_QI3Dw7TSXwKY/edit?gid=0#gid=0', 'tab'],
+    ['Moodle',               'https://ead.bombeiros.pb.gov.br/', 'cap'],
+    ['Normas Técnicas',      'https://bravo.bombeiros.pb.gov.br/portal/normas-tecnicas/', 'liv'],
+    ['Sistema de Notas',     'https://ce.pm.pb.gov.br/sisge/?m=sp&c=login', 'nota'],
   ];
 
-  const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const CHAVE_SENHA = 'asp27_senha_' + AMBIENTE;
+  const CHAVE_ABA   = 'asp27_aba';
 
-  // ── ASPIRANTÔMETRO ───────────────────────────────────────
-  const FORMATURA = new Date('2027-07-02T10:00:00');
+  // ════════════════ ESTADO ════════════════
+  let dados = null;
+  let senhaTurma = '';
+  let senhaMod = '';
+  let abaAtual = ler(CHAVE_ABA) || '';
+  let timerRecarga = null;
+  let validadeSel = 7;
 
-  function updateCountdown() {
-    const diff = FORMATURA - new Date();
-    if (diff <= 0) {
-      ['cd-dias','cd-horas','cd-min','cd-seg'].forEach(id => document.getElementById(id).textContent = '00');
+  const $ = (id) => document.getElementById(id);
+
+  // ════════════════ UTILITÁRIOS ════════════════
+  function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function gravar(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+  function linkify(texto) {
+    return esc(texto).replace(/(https?:\/\/[^\s<]+)/g, u => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
+  }
+  function tempoRel(ms) {
+    if (!ms) return '';
+    const s = Math.floor((Date.now() - ms) / 1000);
+    if (s < 60) return 'agora mesmo';
+    if (s < 3600) return `há ${Math.floor(s / 60)} min`;
+    if (s < 86400) return `há ${Math.floor(s / 3600)} h`;
+    if (s < 172800) return 'ontem';
+    if (s < 30 * 86400) return `há ${Math.floor(s / 86400)} dias`;
+    return new Date(ms).toLocaleDateString('pt-BR');
+  }
+  function ehNovo(ms) { return ms && (Date.now() - ms) / 86400000 <= DIAS_NOVO; }
+  function sigla(tipo) {
+    const t = (tipo || '').toLowerCase();
+    if (t.includes('pdf')) return 'PDF';
+    if (t.includes('word') || t.includes('docx') || t.includes('documento')) return 'DOC';
+    if (t.includes('power') || t.includes('ppt') || t.includes('apresent')) return 'PPT';
+    if (t.includes('planilha') || t.includes('excel') || t.includes('sheet')) return 'XLS';
+    if (t.includes('texto') || t.includes('txt')) return 'TXT';
+    if (t.includes('imagem')) return 'IMG';
+    if (t.includes('vídeo') || t.includes('video')) return 'VÍD';
+    if (t.includes('livro')) return 'LIVRO';
+    if (t.includes('resolu')) return 'RES';
+    if (t.includes('modelo')) return 'MOD';
+    return 'ARQ';
+  }
+  function toast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast'; t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3200);
+  }
+  const ICONES = {
+    cal:  '<path d="M8 2v4M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/>',
+    doc:  '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>',
+    tab:  '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/>',
+    cap:  '<path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',
+    liv:  '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
+    nota: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+    abrir:'<path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+    baixar:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/>',
+    x:    '<path d="M18 6 6 18M6 6l12 12"/>',
+  };
+  const svg = (k, s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONES[k]}</svg>`;
+
+  // ════════════════ API ════════════════
+  async function apiGet(senha, fresco) {
+    if (window.__MOCK_API__) return window.__MOCK_API__.get(senha);
+    const url = API[AMBIENTE];
+    if (!/^https:\/\//.test(url)) throw new Error('config');
+    const res = await fetch(`${url}?senha=${encodeURIComponent(senha)}${fresco ? '&fresco=1' : ''}&t=${Date.now()}`);
+    if (!res.ok) throw new Error('rede');
+    return res.json();
+  }
+  async function apiPost(corpo) {
+    if (window.__MOCK_API__) return window.__MOCK_API__.post(corpo);
+    const res = await fetch(API[AMBIENTE], {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(corpo),
+    });
+    if (!res.ok) throw new Error('rede');
+    return res.json();
+  }
+
+  // ════════════════ LOGIN ════════════════
+  $('form-login').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const senha = $('senha').value.trim();
+    if (!senha) return;
+    const btn = $('btn-entrar');
+    btn.disabled = true; btn.textContent = 'Verificando…';
+    $('erro-login').textContent = '';
+    try {
+      const r = await apiGet(senha);
+      if (!r.ok) throw new Error(r.erro || 'erro');
+      senhaTurma = senha;
+      gravar(CHAVE_SENHA, senha);
+      abrirPortal(r);
+    } catch (e) {
+      $('erro-login').textContent =
+        e.message === 'senha'  ? 'Senha incorreta. Tente novamente.' :
+        e.message === 'config' ? 'Portal em configuração. Volte em instantes.' :
+                                 'Não foi possível conectar. Verifique a internet.';
+      $('senha').select();
+    } finally {
+      btn.disabled = false; btn.textContent = 'Entrar';
+    }
+  });
+
+  function abrirPortal(r) {
+    $('gate').hidden = true;
+    $('portal').hidden = false;
+    $('chip-dev').hidden = AMBIENTE !== 'dev';
+    renderLinks();
+    iniciarContagem();
+    aplicar(r);
+    agendarRecarga();
+    try { gtag('event', 'login'); } catch (e) {}
+  }
+
+  $('btn-sair').addEventListener('click', () => {
+    gravar(CHAVE_SENHA, null);
+    location.reload();
+  });
+
+  // Entrada automática com a senha lembrada
+  (async function auto() {
+    const salva = ler(CHAVE_SENHA);
+    if (!salva) return;
+    senhaTurma = salva;
+    $('gate').hidden = true;
+    $('portal').hidden = false;
+    $('chip-dev').hidden = AMBIENTE !== 'dev';
+    renderLinks();
+    iniciarContagem();
+    try {
+      const r = await apiGet(salva);
+      if (!r.ok) {
+        if (r.erro === 'senha') { gravar(CHAVE_SENHA, null); location.reload(); return; }
+        throw new Error(r.erro);
+      }
+      aplicar(r);
+    } catch (e) {
+      mostrarErro('Não foi possível carregar os dados agora. Tentando de novo em instantes…');
+    }
+    agendarRecarga();
+  })();
+
+  // ════════════════ RECARGA ════════════════
+  async function recarregar(fresco) {
+    const btn = $('btn-atualizar');
+    btn.classList.add('girando');
+    try {
+      const r = await apiGet(senhaTurma, fresco);
+      if (r.ok) aplicar(r);
+      else if (r.erro === 'senha') { gravar(CHAVE_SENHA, null); location.reload(); }
+    } catch (e) {
+      mostrarErro('Sem conexão com o servidor. Os dados exibidos podem estar desatualizados.');
+    } finally {
+      btn.classList.remove('girando');
+    }
+  }
+  function agendarRecarga() {
+    clearInterval(timerRecarga);
+    timerRecarga = setInterval(() => { if (!document.hidden) recarregar(false); }, RECARREGAR_MIN * 60000);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && dados && Date.now() - dados.geradoEm > RECARREGAR_MIN * 60000) recarregar(false);
+  });
+  $('btn-atualizar').addEventListener('click', () => recarregar(true));
+
+  function mostrarErro(msg) { const f = $('faixa-erro'); f.textContent = msg; f.hidden = false; }
+
+  // ════════════════ RENDERIZAÇÃO ════════════════
+  function aplicar(r) {
+    dados = r;
+    $('faixa-erro').hidden = true;
+    renderAvisos();
+    renderQuadro();
+    renderAniversariantes();
+    renderMateriais();
+    $('rodape-atualizado').textContent = 'Dados de ' + new Date(r.geradoEm || Date.now()).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // Aspirantômetro
+  function iniciarContagem() {
+    const tick = () => {
+      const diff = Math.max(0, FORMATURA - new Date());
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor(diff % 86400000 / 3600000);
+      const m = Math.floor(diff % 3600000 / 60000);
+      const s = Math.floor(diff % 60000 / 1000);
+      $('cd-dias').textContent = d;
+      $('cd-horas').textContent = String(h).padStart(2, '0');
+      $('cd-min').textContent = String(m).padStart(2, '0');
+      $('cd-seg').textContent = String(s).padStart(2, '0');
+    };
+    tick();
+    if (!iniciarContagem.timer) iniciarContagem.timer = setInterval(tick, 1000);
+  }
+
+  // Avisos
+  function renderAvisos() {
+    const el = $('avisos');
+    const lista = dados.avisos || [];
+    if (!lista.length) { el.innerHTML = '<div class="vazio">Nenhum aviso no momento.</div>'; return; }
+    el.innerHTML = lista.map(a => {
+      const expira = a.expira ? ` · sai do mural ${new Date(a.expira).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}` : '';
+      const x = senhaMod ? `<button class="aviso-x" data-linha="${a.linha}" title="Remover aviso" aria-label="Remover aviso">${svg('x', 14)}</button>` : '';
+      return `<article class="aviso">
+        <div class="aviso-texto">${linkify(a.texto)}</div>
+        <div class="aviso-meta">${tempoRel(a.data)}${expira}</div>${x}
+      </article>`;
+    }).join('');
+  }
+  $('avisos').addEventListener('click', async (ev) => {
+    const b = ev.target.closest('.aviso-x');
+    if (!b) return;
+    if (!confirm('Remover este aviso do mural?')) return;
+    b.disabled = true;
+    try {
+      const r = await apiPost({ acao: 'removerAviso', senha: senhaMod, linha: b.dataset.linha });
+      if (!r.ok) throw new Error(r.erro);
+      toast('Aviso removido.');
+      recarregar(true);
+    } catch (e) { toast('Não foi possível remover.'); b.disabled = false; }
+  });
+
+  // Quadro
+  function renderQuadro() {
+    const q = dados.quadro;
+    const el = $('quadro');
+    if (!q || !q.imagem) {
+      el.innerHTML = '<div class="vazio">Nenhum quadro publicado.</div>';
+      $('quadro-data').textContent = '';
       return;
     }
-    const dias  = Math.floor(diff / 86400000);
-    const horas = Math.floor((diff % 86400000) / 3600000);
-    const min   = Math.floor((diff % 3600000) / 60000);
-    const seg   = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cd-dias').textContent  = String(dias).padStart(2,'0');
-    document.getElementById('cd-horas').textContent = String(horas).padStart(2,'0');
-    document.getElementById('cd-min').textContent   = String(min).padStart(2,'0');
-    document.getElementById('cd-seg').textContent   = String(seg).padStart(2,'0');
-  }
-
-  // ── MODAL QUADRO ─────────────────────────────────────────
-  function abrirQuadro(link) {
-    document.getElementById('quadro-iframe').src = link;
-    document.getElementById('modal-quadro').classList.add('open');
-  }
-
-  function fecharQuadro() {
-    document.getElementById('modal-quadro').classList.remove('open');
-    document.getElementById('quadro-iframe').src = '';
-  }
-
-  // ── MODAL AVISOS ─────────────────────────────────────────
-  function abrirModal() {
-    document.getElementById('modal-aviso').classList.add('open');
-    document.getElementById('modal-step-1').style.display = 'block';
-    document.getElementById('modal-step-2').style.display = 'none';
-    document.getElementById('modal-pw').value = '';
-    document.getElementById('modal-pw-err').textContent = '';
-    setTimeout(() => document.getElementById('modal-pw').focus(), 100);
-  }
-
-  function fecharModal() { document.getElementById('modal-aviso').classList.remove('open'); }
-
-  function verificarSenhaAviso() {
-    const val = document.getElementById('modal-pw').value;
-    if (val === SENHA_AVISO) {
-      document.getElementById('modal-step-1').style.display = 'none';
-      document.getElementById('modal-step-2').style.display = 'block';
-    } else {
-      document.getElementById('modal-pw-err').textContent = 'Senha incorreta.';
-      document.getElementById('modal-pw').value = '';
-      document.getElementById('modal-pw').focus();
-    }
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { fecharModal(); fecharQuadro(); }
-  });
-  document.getElementById('modal-pw').addEventListener('keydown', e => {
-    if (e.key === 'Enter') verificarSenhaAviso();
-  });
-
-  // ── PARSER CSV ───────────────────────────────────────────
-  function parseCSV(text) {
-    const lines = text.trim().split('\n');
-    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
-    return lines.slice(1).map(line => {
-      const cols = [];
-      let cur = '', inQ = false;
-      for (let i = 0; i < line.length; i++) {
-        if (line[i] === '"') { inQ = !inQ; continue; }
-        if (line[i] === ',' && !inQ) { cols.push(cur.trim()); cur = ''; continue; }
-        cur += line[i];
-      }
-      cols.push(cur.trim());
-      const obj = {};
-      headers.forEach((h, i) => obj[h] = (cols[i] || '').replace(/^"|"$/g, '').trim());
-      return obj;
+    $('quadro-data').textContent = q.data ? tempoRel(q.data) : '';
+    el.innerHTML = `<button class="quadro-thumb" id="quadro-abrir" aria-label="Ampliar quadro">
+        <img src="${esc(q.imagem)}" alt="${esc(q.nome)}" loading="lazy" referrerpolicy="no-referrer">
+        <span class="lupa">Ampliar</span>
+      </button>
+      <div class="quadro-nome">${esc(q.nome)}</div>`;
+    $('quadro-abrir').addEventListener('click', () => {
+      $('lightbox-img').src = q.imagem;
+      $('lightbox-nome').textContent = q.nome;
+      $('lightbox-drive').href = q.ver;
+      $('lightbox').hidden = false;
     });
   }
 
-  // ── QUADRO ───────────────────────────────────────────────
-  async function loadQuadro() {
-    try {
-      const res = await fetch(QUADRO_CSV + '&t=' + Date.now());
-      if (!res.ok) throw new Error();
-      const rows = parseCSV(await res.text()).filter(r => r.nome && r.link);
-      const nomeEl  = document.getElementById('quadro-nome');
-      const btnWrap = document.getElementById('quadro-btn-wrap');
-      if (rows.length === 0) {
-        nomeEl.textContent = 'Nenhum quadro disponível no momento.';
-        btnWrap.innerHTML  = '';
-      } else {
-        const ultimo = rows[rows.length - 1];
-        nomeEl.textContent = ultimo.nome;
-        btnWrap.innerHTML  = `<button class="btn-ver-quadro" onclick="abrirQuadro('${ultimo.link}')">Ver Quadro</button>`;
-      }
-    } catch {
-      document.getElementById('quadro-nome').textContent = 'Não foi possível carregar.';
+  // Aniversariantes
+  function renderAniversariantes() {
+    const lista = dados.aniversariantes || [];
+    const hoje = new Date();
+    const mes = hoje.getMonth() + 1, dia = hoje.getDate();
+    const prox = mes === 12 ? 1 : mes + 1;
+    $('aniv-mes').textContent = MESES[mes - 1];
+
+    const doMes = lista.filter(a => a.mes === mes).sort((a, b) => a.dia - b.dia);
+    let html = doMes.map(a => item(a, a.dia === dia ? 'hoje' : (a.dia < dia ? 'passou' : ''))).join('');
+
+    // Próximos (mês seguinte) aparecem na reta final do mês ou se o mês está vazio/terminado
+    const restantes = doMes.filter(a => a.dia >= dia).length;
+    const ultimoDia = new Date(hoje.getFullYear(), mes, 0).getDate();
+    if (restantes === 0 || ultimoDia - dia <= 7) {
+      const doProx = lista.filter(a => a.mes === prox).sort((a, b) => a.dia - b.dia).slice(0, 4);
+      if (doProx.length) html += doProx.map(a => item(a, '')).join('');
+    }
+    $('aniv').innerHTML = html || '<div class="vazio">Nenhum aniversariante este mês.</div>';
+
+    function item(a, cls) {
+      return `<div class="aniv-item ${cls}">
+        <div class="d num">${String(a.dia).padStart(2, '0')}<small>${MESES[a.mes - 1].slice(0, 3)}</small></div>
+        <div class="nome">${esc(a.nome)}${cls === 'hoje' ? ' · hoje! 🎂' : ''}</div>
+      </div>`;
     }
   }
 
-  // ── TEMPO RELATIVO ───────────────────────────────────────
-  function tempoRelativo(dataStr) {
-    try {
-      const partes = dataStr.trim().split(' ');
-      const [dia, mes, ano] = partes[0].split('/');
-      const [hora, min] = (partes[1] || '00:00').split(':');
-      const data = new Date(ano, mes - 1, dia, hora, min);
-      const diff = Math.floor((new Date() - data) / 1000);
-      if (diff < 60)     return 'agora mesmo';
-      if (diff < 3600)   return `há ${Math.floor(diff/60)} min`;
-      if (diff < 86400)  return `há ${Math.floor(diff/3600)}h`;
-      if (diff < 172800) return 'ontem';
-      if (diff < 604800) return `há ${Math.floor(diff/86400)} dias`;
-      return partes[0];
-    } catch { return ''; }
-  }
+  // Materiais
+  function renderMateriais() {
+    const discs = (dados.disciplinas || []).filter(d => d.itens && d.itens.length);
+    const total = discs.reduce((n, d) => n + d.itens.length, 0);
+    const novos = discs.reduce((n, d) => n + d.itens.filter(i => ehNovo(i.data)).length, 0);
+    $('mat-sub').textContent = `${total} arquivos em ${discs.length} disciplinas` + (novos ? ` · ${novos} novo${novos > 1 ? 's' : ''}` : '');
 
-  // ── LINKIFY ──────────────────────────────────────────────
-  function linkify(texto) {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return texto.replace(urlRegex, '<a href="$1" target="_blank" style="color:var(--dourado);text-decoration:underline;word-break:break-all;">$1</a>');
-  }
-
-  // ── AVISOS ───────────────────────────────────────────────
-  async function loadAvisos() {
-    try {
-      const res = await fetch(AVISOS_CSV + '&t=' + Date.now());
-      if (!res.ok) throw new Error();
-      const rows = parseCSV(await res.text()).filter(r => r.aviso && (r.ativo || '').toLowerCase() === 'sim');
-      const lista = document.getElementById('avisos-lista');
-      lista.innerHTML = rows.length === 0
-        ? '<div class="avisos-vazio">Nenhum aviso no momento.</div>'
-        : rows.map(r => {
-          const tempo = r.data ? tempoRelativo(r.data) : '';
-          return `<div class="aviso-item">
-            <span class="aviso-texto">📌 ${linkify(r.aviso)}</span>
-            ${tempo ? `<span class="aviso-tempo">${tempo}</span>` : ''}
-          </div>`;
-        }).join('');
-    } catch {
-      document.getElementById('avisos-lista').innerHTML = '<div class="avisos-vazio">Não foi possível carregar os avisos.</div>';
+    if (!discs.find(d => d.id === abaAtual)) {
+      const comNovo = discs.find(d => d.itens.some(i => ehNovo(i.data)));
+      abaAtual = (comNovo || discs[0] || {}).id || '';
     }
+
+    $('abas').innerHTML = discs.map(d => {
+      const temNovo = d.itens.some(i => ehNovo(i.data));
+      return `<button class="aba ${d.id === abaAtual ? 'ativa' : ''}" data-id="${esc(d.id)}">
+        ${temNovo ? '<span class="ponto" title="Material novo"></span>' : ''}${esc(d.nome)}<span class="qtd">${d.itens.length}</span>
+      </button>`;
+    }).join('');
+
+    renderLista();
   }
 
-  // ── ANIVERSARIANTES ──────────────────────────────────────
-  async function loadAniversariantes() {
-    const agora      = new Date();
-    const mesAtual   = agora.getMonth() + 1;
-    const diaAtual   = agora.getDate();
-    const proxMes    = mesAtual === 12 ? 1 : mesAtual + 1;
-    const mostrarProx = diaAtual <= 7;
+  function renderLista() {
+    const termo = $('busca').value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const discs = (dados.disciplinas || []);
+    const el = $('lista');
+    $('abas').style.opacity = termo ? '0.45' : '';
 
-    document.getElementById('aniv-mes').textContent = MESES[agora.getMonth()];
-
-    try {
-      const res = await fetch(ANIVERSARIO_CSV + '&t=' + Date.now());
-      if (!res.ok) throw new Error();
-      const rows = parseCSV(await res.text()).filter(r => r.nome && r.data);
-
-      const doMes = rows.filter(r => parseInt(r.data.split('/')[1]) === mesAtual)
-                        .sort((a, b) => parseInt(a.data.split('/')[0]) - parseInt(b.data.split('/')[0]));
-
-      const doProxMes = mostrarProx
-        ? rows.filter(r => parseInt(r.data.split('/')[1]) === proxMes)
-              .sort((a, b) => parseInt(a.data.split('/')[0]) - parseInt(b.data.split('/')[0]))
-        : [];
-
-      const lista = document.getElementById('aniversariantes-lista');
-      let html = '';
-
-      if (doMes.length === 0 && doProxMes.length === 0) {
-        html = '<div class="aniversariantes-vazio">Nenhum aniversariante este mês.</div>';
-      } else {
-        html += doMes.map(r => {
-          const dia    = parseInt(r.data.split('/')[0]);
-          const ehHoje = dia === diaAtual;
-          return `<div class="aniversariante-item ${ehHoje ? 'hoje' : ''}">
-            <span class="aniv-dia">${String(dia).padStart(2,'0')}</span>
-            <span class="aniv-nome">${r.nome}${ehHoje ? ' 🎂' : ''}</span>
-          </div>`;
-        }).join('');
-
-        if (doMes.length === 0) {
-          html += '<div class="aniversariantes-vazio" style="text-align:left;padding:4px 0;">Nenhum aniversariante este mês.</div>';
-        }
-
-        if (doProxMes.length > 0) {
-          html += `<div class="aniversariantes-divisor">▸ ${MESES[proxMes - 1]}</div>`;
-          html += doProxMes.map(r => {
-            const dia = parseInt(r.data.split('/')[0]);
-            return `<div class="aniversariante-item proximo">
-              <span class="aniv-dia">${String(dia).padStart(2,'0')}</span>
-              <span class="aniv-nome">${r.nome} <span class="aniv-mes-tag">${MESES[proxMes-1].substring(0,3)}</span></span>
-            </div>`;
-          }).join('');
-        }
-      }
-
-      lista.innerHTML = html;
-    } catch {
-      document.getElementById('aniversariantes-lista').innerHTML = '<div class="aniversariantes-vazio">Não foi possível carregar.</div>';
+    if (termo) {
+      const achados = [];
+      discs.forEach(d => d.itens.forEach(i => {
+        const alvo = (i.nome + ' ' + (i.grupo || '') + ' ' + d.nome).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        if (alvo.includes(termo)) achados.push([i, d]);
+      }));
+      achados.sort((a, b) => (b[0].data || 0) - (a[0].data || 0));
+      el.innerHTML = achados.length
+        ? achados.map(([i, d]) => linha(i, d.nome)).join('')
+        : '<div class="item"><div class="vazio">Nada encontrado para essa busca.</div></div>';
+      return;
     }
+
+    const d = discs.find(x => x.id === abaAtual);
+    if (!d) { el.innerHTML = '<div class="item"><div class="vazio">Nenhum material disponível ainda.</div></div>'; return; }
+
+    const grupos = {};
+    d.itens.forEach(i => { (grupos[i.grupo || ''] = grupos[i.grupo || ''] || []).push(i); });
+    const nomes = Object.keys(grupos).sort((a, b) => a === '' ? -1 : b === '' ? 1 : a.localeCompare(b, 'pt-BR'));
+    const usaGrupos = nomes.length > 1 || nomes[0] !== '';
+    el.innerHTML = nomes.map(g =>
+      (usaGrupos ? `<div class="grupo-titulo">${esc(g || 'Geral')}</div>` : '') +
+      grupos[g].map(i => linha(i)).join('')
+    ).join('');
   }
 
-  // ── BADGE NOVO (arquivo) ─────────────────────────────────
-  function isNovo(dataStr) {
-    if (!dataStr) return false;
-    try {
-      const partes = dataStr.trim().split(' ');
-      const [dia, mes, ano] = partes[0].split('/');
-      const [hora, min] = (partes[1] || '00:00').split(':');
-      const data = new Date(ano, mes - 1, dia, hora, min);
-      return (new Date() - data) / 86400000 <= 3;
-    } catch { return false; }
+  function linha(i, disc) {
+    const quando = i.data ? tempoRel(i.data) : '';
+    const meta = [disc ? `<span class="disc">${esc(disc)}</span>` : '', esc(i.tipo || ''), quando].filter(Boolean).join(' · ');
+    const baixar = i.baixar
+      ? `<a class="btn-sec" href="${esc(i.baixar)}" target="_blank" rel="noopener" title="Baixar" aria-label="Baixar ${esc(i.nome)}">${svg('baixar', 14)}</a>`
+      : '';
+    return `<div class="item">
+      <div class="tipo">${sigla(i.tipo)}</div>
+      <div class="item-info">
+        <div class="item-nome">${esc(i.nome)}${ehNovo(i.data) ? '<span class="novo">Novo</span>' : ''}</div>
+        <div class="item-meta">${meta}</div>
+      </div>
+      <div class="item-acoes">
+        <a class="btn-sec" href="${esc(i.ver)}" target="_blank" rel="noopener">${svg('abrir', 14)}<span class="txt">Abrir</span></a>
+        ${baixar}
+      </div>
+    </div>`;
   }
 
-  // ── ÍCONE POR TIPO ───────────────────────────────────────
-  function getIcon(tipo) {
-    const t = (tipo || '').toLowerCase();
-    if (t.includes('livro'))                             return '📚';
-    if (t.includes('planilha') || t.includes('sheets')) return '📊';
-    if (t.includes('txt'))                               return '📝';
-    if (t.includes('docx'))                              return '📄';
-    if (t.includes('simulad'))                           return '📋';
-    if (t.includes('estudo'))                            return '📖';
-    if (t.includes('ppt') || t.includes('apresent'))    return '📊';
-    return '📄';
+  $('abas').addEventListener('click', (ev) => {
+    const b = ev.target.closest('.aba');
+    if (!b) return;
+    abaAtual = b.dataset.id;
+    gravar(CHAVE_ABA, abaAtual);
+    $('busca').value = '';
+    document.querySelectorAll('.aba').forEach(x => x.classList.toggle('ativa', x === b));
+    renderLista();
+  });
+  $('busca').addEventListener('input', () => { if (dados) renderLista(); });
+
+  // Links rápidos
+  function renderLinks() {
+    $('links').innerHTML = LINKS.map(([nome, url, ic]) =>
+      `<a class="link" href="${url}" target="_blank" rel="noopener">${svg(ic, 18)}<span>${esc(nome)}</span></a>`
+    ).join('');
   }
 
-  // ── RENDER PORTAL ────────────────────────────────────────
-  function renderPortal(rows) {
-    const nav     = document.getElementById('tabs-nav');
-    const content = document.getElementById('tabs-content');
-    nav.innerHTML = '';
-    content.innerHTML = '';
-
-    const groups = {};
-    TABS_CONFIG.forEach(t => groups[t.id] = []);
-    rows.forEach(r => {
-      const key = r.materia.trim().toLowerCase();
-      if (!groups[key]) groups[key] = [];
-      groups[key].push(r);
-    });
-
-    let firstActive = true;
-
-    TABS_CONFIG.forEach(tab => {
-      const items = groups[tab.id] || [];
-
-      // Badge "novo" na aba: acende se qualquer item foi adicionado nos últimos 3 dias
-      const temNovo = items.some(item => isNovo(item.data));
-
-      const btn = document.createElement('button');
-      btn.className = 'tab-btn' + (firstActive ? ' active' : '');
-      btn.setAttribute('data-tab', tab.id);
-      btn.innerHTML = `${tab.label}<span class="tab-count">${items.length}</span>${temNovo ? '<span class="tab-new-dot">novo</span>' : ''}`;
-      btn.onclick = (e) => openTab(e, tab.id);
-      nav.appendChild(btn);
-
-      const panel = document.createElement('div');
-      panel.className = 'tab-panel' + (firstActive ? ' active' : '');
-      panel.id = tab.id;
-
-      const lbl = document.createElement('div');
-      lbl.className = 'section-label';
-      lbl.textContent = tab.label;
-      panel.appendChild(lbl);
-
-      if (items.length === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'empty-state';
-        empty.textContent = 'Nenhum material disponível ainda.';
-        panel.appendChild(empty);
-      } else {
-        const list = document.createElement('div');
-        list.className = 'files-list';
-        items.forEach(item => {
-          const t = (item.tipo || '').toLowerCase();
-          const isDirectLink = t.includes('sheets') || t.includes('planilha') || t.includes('ppt') || t.includes('apresent');
-          const href = isDirectLink ? item.id : `https://drive.google.com/uc?export=download&id=${item.id}`;
-          const novo = isNovo(item.data);
-          const card = document.createElement('div');
-          card.className = 'file-card';
-          card.innerHTML = `
-            <div class="file-type-badge">${getIcon(item.tipo)}</div>
-            <div class="file-info">
-              <span class="file-name">${item.nome}${novo ? '<span class="badge-novo">Novo</span>' : ''}</span>
-              <span class="file-meta">${item.tipo || ''}</span>
-            </div>
-            <a class="btn-download" href="${href}" target="_blank">${isDirectLink ? 'Abrir' : 'Baixar'}</a>
-          `;
-          list.appendChild(card);
-        });
-        panel.appendChild(list);
-      }
-      content.appendChild(panel);
-      firstActive = false;
-    });
+  // ════════════════ MODAL DE AVISO ════════════════
+  function abrirModalAviso() {
+    $('aviso-erro').textContent = '';
+    $('aviso-passo-senha').hidden = !!senhaMod;
+    $('aviso-passo-texto').hidden = !senhaMod;
+    $('aviso-ok').textContent = senhaMod ? 'Publicar' : 'Continuar';
+    $('aviso-senha').value = '';
+    $('aviso-texto').value = '';
+    $('modal-aviso').hidden = false;
+    setTimeout(() => (senhaMod ? $('aviso-texto') : $('aviso-senha')).focus(), 50);
   }
+  $('btn-novo-aviso').addEventListener('click', abrirModalAviso);
 
-  // ── FETCH MATERIAIS ──────────────────────────────────────
-  async function loadFromSheets() {
-    try {
-      const res = await fetch(MATERIAIS_CSV + '&t=' + Date.now());
-      if (!res.ok) throw new Error();
-      renderPortal(parseCSV(await res.text()).filter(r => r.materia && r.nome && r.id));
-    } catch {
-      document.getElementById('tabs-content').innerHTML = `
-        <div class="error-state">
-          ⚠️ Não foi possível carregar os materiais.<br>
-          <small style="opacity:0.6;font-size:11px;">Verifique sua conexão ou tente novamente.</small>
-        </div>`;
-      document.getElementById('tabs-nav').innerHTML = '';
-    }
-  }
-
-  async function recarregarTudo() {
-    const btn = document.getElementById('btn-refresh');
-    btn.classList.add('spinning');
-    await Promise.all([loadFromSheets(), loadAvisos(), loadAniversariantes(), loadQuadro()]);
-    btn.classList.remove('spinning');
-  }
-
-  // ── LOGIN ────────────────────────────────────────────────
-  function checkPassword() {
-    var input = document.getElementById('pw-input').value;
-    if (input === 'dev') {
-      document.getElementById('gate').style.display = 'none';
-      var portal = document.getElementById('portal');
-      portal.style.display = 'block';
-      portal.classList.add('visible');
-      loadFromSheets();
-      loadAvisos();
-      loadAniversariantes();
-      loadQuadro();
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    } else {
-      document.getElementById('err-msg').textContent = 'Senha incorreta. Tente novamente.';
-      document.getElementById('pw-input').value = '';
-      document.getElementById('pw-input').focus();
-    }
-  }
-
-  document.getElementById('pw-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkPassword();
+  $('validades').addEventListener('click', (ev) => {
+    const b = ev.target.closest('button');
+    if (!b) return;
+    validadeSel = parseInt(b.dataset.dias, 10);
+    $('validades').querySelectorAll('button').forEach(x => x.classList.toggle('sel', x === b));
   });
 
-  function openTab(evt, tabId) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    evt.currentTarget.classList.add('active');
-  }
+  $('aviso-ok').addEventListener('click', async () => {
+    const btn = $('aviso-ok');
+    $('aviso-erro').textContent = '';
+    btn.disabled = true;
+    try {
+      if (!senhaMod) {
+        const s = $('aviso-senha').value;
+        const r = await apiPost({ acao: 'verificar', senha: s });
+        if (!r.ok) { $('aviso-erro').textContent = 'Senha incorreta.'; return; }
+        senhaMod = s;
+        $('aviso-passo-senha').hidden = true;
+        $('aviso-passo-texto').hidden = false;
+        btn.textContent = 'Publicar';
+        $('aviso-texto').focus();
+        renderAvisos();
+        return;
+      }
+      const texto = $('aviso-texto').value.trim();
+      if (!texto) { $('aviso-erro').textContent = 'Escreva o aviso.'; return; }
+      btn.textContent = 'Publicando…';
+      const r = await apiPost({ acao: 'novoAviso', senha: senhaMod, texto, dias: validadeSel });
+      if (!r.ok) throw new Error(r.erro);
+      $('modal-aviso').hidden = true;
+      toast('Aviso publicado no mural.');
+      recarregar(true);
+    } catch (e) {
+      $('aviso-erro').textContent = 'Não foi possível publicar. Tente novamente.';
+    } finally {
+      btn.disabled = false;
+      if (senhaMod) btn.textContent = 'Publicar';
+    }
+  });
+  $('aviso-senha').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('aviso-ok').click(); });
+
+  // Fechar modais
+  document.addEventListener('click', (ev) => {
+    if (ev.target.closest('[data-fechar]') || ev.target.classList.contains('modal') || ev.target.classList.contains('lightbox-img')) {
+      $('modal-aviso').hidden = true;
+      $('lightbox').hidden = true;
+    }
+  });
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') { $('modal-aviso').hidden = true; $('lightbox').hidden = true; }
+  });
+})();
 </script>
-
 </body>
 </html>
